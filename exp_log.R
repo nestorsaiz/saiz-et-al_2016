@@ -22,3 +22,4 @@ FGF.log <- FGF.all %>%
                   Avg.count = mean(Cellcount))
 # Write 'Experimental_log.csv' file
 write.csv(FGF.log, file = 'Experimental_log.csv', row.names = FALSE)
+

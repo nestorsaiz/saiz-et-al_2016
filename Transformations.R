@@ -7,35 +7,7 @@ library(knitr)
 # Run the following custom functions
 source('stage.R')
 source('correct.fgf.R')
-identify <- function(dataframe) {
-  ## Calculate the ratio of GATA6 to NANOG levels 
-  ## If raw data table, run 'correct' first
-  dataframe['G6toNG'] <- dataframe$CH4.logCor / dataframe$CH5.logCor
-  dataframe['Identity.auto'] <- 'NA'
-  dataframe$Identity.auto <- ifelse(dataframe$Treatment == 'Littermate', 
-                                    ifelse(dataframe$Identity == 'TE', 'TE', 
-                                           ifelse((dataframe$CH4.logCor < 0.5 &
-                                                     dataframe$CH5.logCor < 1.25), 'DN', 
-                                                  ifelse(abs(dataframe$G6toNG) > 1.5 | 
-                                                           (dataframe$CH4.logCor > 0.5 & 
-                                                              dataframe$CH5.logCor <1.25), 'PRE', 
-                                                         ifelse(abs(dataframe$G6toNG) < 0.66 | 
-                                                                  (dataframe$CH5.logCor > 0.5 & 
-                                                                     dataframe$CH4.logCor < 1.25), 
-                                                                'EPI', 'DP')))), 
-                                    ifelse(dataframe$Identity == 'TE', 'TE',
-                                           ifelse((dataframe$CH4.logCor < 4 &
-                                                     dataframe$CH5.logCor < 4), 'DN', 
-                                                  ifelse(abs(dataframe$G6toNG) > 1.1 | 
-                                                           (dataframe$CH4.logCor > 3 & 
-                                                              dataframe$CH5.logCor <4), 'PRE', 
-                                                         ifelse(abs(dataframe$G6toNG) < 0.9 | 
-                                                                  (dataframe$CH5.logCor > 4 & 
-                                                                     dataframe$CH4.logCor < 4), 
-                                                                'EPI', 'DP')))))
-  dataframe$Identity.auto <- as.factor(dataframe$Identity.auto)
-  return(dataframe)
-}
+source('identify.R')
 
 # Load FGF_all_pooled csv file
 FGF.all <- read.csv('FGF_all_pooled.csv', header = TRUE, sep = ',')

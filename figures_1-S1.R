@@ -3,6 +3,7 @@
 
 # Load data and apply transformations
 source('Transformations.R')
+source('tables.R')
 
 # Figure 1c
 
@@ -84,30 +85,68 @@ print(fig1e)
 
 # Figure 1f
 
-qplot(factor(Cellcount), pcTotal_avg, 
-      data = FGF.sum %>% 
-              filter(Treatment == 'Littermate', 
-                     Stage != '<32') %>% 
-              group_by(Cellcount, 
-                       Treatment, TE_ICM) %>% 
-              summarise(pcTotal_avg = mean(pcTotal)), 
-      geom = 'bar', 
-      fill = TE_ICM) + 
+fig1f <- qplot(factor(Cellcount), pcTotal_avg, 
+               data = FGF.sum %>% 
+                       filter(Treatment == 'Littermate', 
+                              Stage != '<32') %>% 
+                       group_by(Cellcount, 
+                                Treatment, TE_ICM) %>% 
+                       summarise(pcTotal_avg = mean(pcTotal)), 
+               geom = 'bar', 
+               fill = TE_ICM) + 
         theme_bw() + 
         scale_fill_manual(values = c('TE' = 'green', 'ICM' = 'purple')) + 
         geom_bar(stat = 'identity') + coord_fixed(0.15)
+print(fig1f)
 
 # Figure 1g
 
-qplot(Stage, pcTotal_avg, 
-      data = FGF.sum %>% 
-              filter(Treatment == 'Littermate', 
-                     Stage != '<32') %>% 
-              group_by(Stage, 
-                       Treatment, TE_ICM) %>% 
-              summarise(pcTotal_avg = mean(pcTotal)), 
-      geom = 'bar', 
-      fill = TE_ICM) + 
+fig1g <- qplot(Stage, pcTotal_avg, 
+               data = FGF.sum %>% 
+                       filter(Treatment == 'Littermate', 
+                              Stage != '<32') %>% 
+                       group_by(Stage, 
+                                Treatment, TE_ICM) %>% 
+                       summarise(pcTotal_avg = mean(pcTotal)), 
+               geom = 'bar', 
+               fill = TE_ICM) + 
         theme_bw() + 
         scale_fill_manual(values = c('TE' = 'green', 'ICM' = 'purple')) + 
         geom_bar(stat = 'identity') + coord_fixed(1/10)
+print(fig1g)
+
+# Figure S1a
+
+figS1a <- qplot(Stage, Cellcount, 
+                data = FGF.all %>%
+                        group_by(Embryo_ID, 
+                                 Treatment, 
+                                 Cellcount, 
+                                 Stage) %>%
+                        summarise() %>% 
+                        filter(Treatment == 'Littermate', 
+                               Stage != '<32'), 
+                geom = c('boxplot', 'jitter'), ylim = c(0, 200), 
+                fill = I('gray')) + theme_bw() + coord_fixed(1/20)
+print(figS1a)
+
+# Figure S1b
+
+figS1b <- qplot(Stage, Count, data = subset(FGF.ICMsum, 
+                                            Treatment == 'Littermate' & 
+                                                    Stage != '<32'), 
+                fill = Identity.auto, geom = c('boxplot', 'jitter')) + 
+        scale_fill_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
+                                     'DP' = 'purple', 'DN' = 'gray')) + 
+        theme_bw() + coord_fixed(0.15)
+print(figS1b)
+
+# Figure S1c
+
+figS1c <- qplot(Stage, Count, data = subset(FGF.sum, 
+                                            Treatment == 'Littermate' & 
+                                                    Stage != '<32'), 
+                fill = TE_ICM, geom = c('boxplot', 'jitter')) + 
+        scale_fill_manual(values = c('TE' = 'green', 'ICM' = 'purple')) + 
+        theme_bw() + coord_fixed(0.075)
+print(figS1c)

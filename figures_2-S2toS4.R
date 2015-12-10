@@ -178,7 +178,7 @@ pdf(file = 'ICM_R1-R6.pdf', paper = 'letter')
 regimes <- c('R1', 'R5', 'R3', 'R4', 'R6')
 regimes <- as.factor(regimes)
 treatments <- c('Control', 'FGF4_1000', 'PD03_1')
-treatments <- as.factor(treatments)s
+treatments <- as.factor(treatments)
 for (r in regimes){
         for (t in treatments){
                 plot <- qplot(Embryo_ID, data = FGF.all %>% 

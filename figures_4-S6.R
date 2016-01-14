@@ -40,8 +40,7 @@ print(fig4dh)
 
 fig4f <- qplot(Treatment, data = FGF.all %>%
                        filter(Regime == 'R9', 
-                              TE_ICM != 'TE', 
-                              Treatment != 'FGF42PD'), 
+                              TE_ICM != 'TE'), 
                fill = Identity, geom = 'bar', position = 'fill') + 
         scale_fill_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
                                      'DP' = 'purple', 'DN' = 'gray')) + 

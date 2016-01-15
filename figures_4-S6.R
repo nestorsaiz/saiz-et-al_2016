@@ -1,9 +1,21 @@
 # Saiz *et al* (2016)
 # Figures 4 and S6 plots
 
-# Load data and apply transformations
-source('Transformations.R')
-source('tables.R')
+# Load data and apply transformations if not loaded yet
+data.ok <- exists('FGF.all') 
+tables.ok <- exists('FGF.sum')
+if (data.ok == FALSE) {
+        source('Transformations.R')
+}
+rm(data.ok)
+if (tables.ok == FALSE) {
+        source('tables.R')
+}
+rm(tables.ok)
+
+# Create object for identity colors
+idcols <- c('EPI' = 'red', 'PRE' = 'blue', 'DP' = 'purple', 'DN' = 'gray', 
+            'TE' = 'green', 'ICM' = 'purple')
 
 # Figure 4b
 
@@ -15,8 +27,7 @@ fig4b <- qplot(CH4.logCor, CH5.logCor,
                color = Identity.auto, 
                ylim = c(-3, 8), xlim = c(-3, 8)) + 
         facet_grid( ~ Treatment) + 
-        scale_color_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
-                                      'DP' = 'purple', 'DN' = 'gray')) + 
+        scale_color_manual(values = idcols) + 
         theme_bw() + coord_fixed()
 print(fig4b)
 
@@ -31,8 +42,7 @@ fig4dh <- qplot(CH4.logCor, CH5.logCor,
                 color = Identity.auto, 
                 ylim = c(0, 8), xlim = c(0, 8)) + 
         facet_grid( ~ Treatment) + 
-        scale_color_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
-                                      'DP' = 'purple', 'DN' = 'gray')) + 
+        scale_color_manual(values = idcols) + 
         theme_bw() + coord_fixed()
 print(fig4dh)
 
@@ -42,8 +52,7 @@ fig4f <- qplot(Treatment, data = FGF.all %>%
                        filter(Regime == 'R9', 
                               TE_ICM != 'TE'), 
                fill = Identity, geom = 'bar', position = 'fill') + 
-        scale_fill_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
-                                     'DP' = 'purple', 'DN' = 'gray')) + 
+        scale_fill_manual(values = idcols) + 
         facet_wrap( ~ Xpoint) + 
         theme_bw() + coord_fixed(5)
 print(fig4f)
@@ -79,8 +88,7 @@ figS6c <- qplot(CH4.logCor, CH5.logCor,
                 color = Identity, 
                 xlim = c(-3, 8), ylim = c(-3, 8)) + 
         facet_grid( ~ Treatment) + 
-        scale_color_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
-                                      'DP' = 'purple', 'DN' = 'gray')) + 
+        scale_color_manual(values = idcols) + 
         theme_bw() + coord_fixed()
 print(figS6c)
 
@@ -90,8 +98,7 @@ figS6d <- qplot(Treatment, data = FGF.all %>%
                         filter(Regime == 'R8', 
                                TE_ICM != 'TE'), 
                 fill = Identity, geom = 'bar', position = 'fill') + 
-        scale_fill_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
-                                     'DP' = 'purple', 'DN' = 'gray')) + 
+        scale_fill_manual(values = idcols) + 
         facet_wrap( ~ Xpoint) + 
         theme_bw() + coord_fixed(5)
 print(figS6d)
@@ -116,8 +123,7 @@ for (r in regimes){
                                              TE_ICM != 'TE'), 
                               fill = Identity.auto, geom = 'bar', position = 'fill', 
                               main = r, xlab = t) + 
-                        scale_fill_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
-                                                     'DP' = 'purple', 'DN' = 'gray')) + 
+                        scale_fill_manual(values = idcols) + 
                         theme_bw() + coord_fixed(10)
                 print(plot)
         }

@@ -1,9 +1,21 @@
 # Saiz *et al* (2016)
 # Figures 1 and S1 plots
 
-# Load data and apply transformations
-source('Transformations.R')
-source('tables.R')
+# Load data and apply transformations if not loaded yet
+data.ok <- exists('FGF.all') 
+tables.ok <- exists('FGF.sum')
+if (data.ok == FALSE) {
+        source('Transformations.R')
+}
+rm(data.ok)
+if (tables.ok == FALSE) {
+        source('tables.R')
+}
+rm(tables.ok)
+
+# Create object for identity colors
+idcols <- c('EPI' = 'red', 'PRE' = 'blue', 'DP' = 'purple', 'DN' = 'gray', 
+            'TE' = 'green', 'ICM' = 'purple')
 
 # Figure 1c
 ## Scatter plots for the levels of GATA6 and NANOG 
@@ -19,8 +31,7 @@ fig1c <- ggplot(FGF.all %>%
                 aes(x = CH4.logCor, y = CH5.logCor))
 ## Color-code for identity, as assigned automatically with 'identify.R'
 fig1c <- fig1c + geom_point(aes(color = Identity.auto))
-fig1c <- fig1c + scale_color_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
-                                               'DP' = 'purple', 'DN' = 'gray'))
+fig1c <- fig1c + scale_color_manual(values = idcols)
 # fig1c <- fig1c + geom_density2d()
 ## Set limits for X and Y axes
 fig1c <- fig1c + xlim(-4, 7) + ylim(-4, 7)
@@ -46,9 +57,8 @@ fig1d <- ggplot(FGF.all %>%
             aes(x = factor(Cellcount), fill = Identity.auto))
 fig1d <- fig1d + geom_bar(position = 'fill')
 ## Color-code for identity
-fig1d <- fig1d + scale_fill_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
-                                      'DP' = 'purple', 'DN' = 'gray'))
-## Set aesthetis for the plot
+fig1d <- fig1d + scale_fill_manual(values = idcols)
+## Set aesthetics for the plot
 fig1d <- fig1d + theme_bw()
 fig1d <- fig1d + coord_fixed(15)
 ## Print the plot to the screen
@@ -67,8 +77,7 @@ fig1e <- ggplot(FGF.all %>%
              aes(x = Stage, fill = Identity.auto))
 fig1e <- fig1e + geom_bar(position = 'fill')
 ## Color-code for identity
-fig1e <- fig1e + scale_fill_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
-                                        'DP' = 'purple', 'DN' = 'gray'))
+fig1e <- fig1e + scale_fill_manual(values = idcols)
 ## Set aesthetis for the plot
 fig1e <- fig1e + theme_bw()
 fig1e <- fig1e + coord_fixed(10)
@@ -87,7 +96,7 @@ fig1f <- ggplot(FGF.all %>%
                 aes(x = factor(Cellcount), fill = TE_ICM))
 fig1f <- fig1f + geom_bar(position = 'fill')
 ## Color-code for TE vs ICM
-fig1f <- fig1f + scale_fill_manual(values = c('TE' = 'green', 'ICM' = 'purple'))
+fig1f <- fig1f + scale_fill_manual(values = idcols)
 ## Set up aesthetics for the plot
 fig1f <- fig1f + theme_bw() + coord_fixed(15)
 ## Print the plot to the screen
@@ -105,7 +114,7 @@ fig1g <- ggplot(FGF.all %>%
                 aes(x = Stage, fill = TE_ICM))
 fig1g <- fig1g + geom_bar(position = 'fill')
 ## Color-code for TE vs ICM
-fig1g <- fig1g + scale_fill_manual(values = c('TE' = 'green', 'ICM' = 'purple'))
+fig1g <- fig1g + scale_fill_manual(values = idcols)
 ## Set up aesthetics for the plot
 fig1g <- fig1g + theme_bw()
 fig1g <- fig1g + coord_fixed(10)
@@ -146,8 +155,7 @@ figS1b <- qplot(Stage, Count,
                 ## and select plot type - boxplot with one dot per embryo
                 fill = Identity.auto, geom = c('boxplot', 'jitter')) + 
         ## Color-code for identity
-        scale_fill_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
-                                     'DP' = 'purple', 'DN' = 'gray')) + 
+        scale_fill_manual(values = idcols) + 
         ## Set up aesthetics for the plot
         theme_bw() + coord_fixed(0.15)
 ## Print the plot to the screen
@@ -166,7 +174,7 @@ figS1c <- qplot(Stage, Count,
                 ## boxplot with one dot per embryo
                 fill = TE_ICM, geom = c('boxplot', 'jitter')) + 
         ## Color-code for identity
-        scale_fill_manual(values = c('TE' = 'green', 'ICM' = 'purple')) + 
+        scale_fill_manual(values = idcols) + 
         ## Set up aesthetics for the plot
         theme_bw() + coord_fixed(0.075)
 ## Print the plot to the screen

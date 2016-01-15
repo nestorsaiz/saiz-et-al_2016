@@ -1,10 +1,23 @@
 # Saiz *et al* (2016)
 # Figures 3 and S5 plots
 
-# Load data and apply transformations
 library('lattice')
-source('Transformations.R')
-source('tables.R')
+
+# Load data and apply transformations if not loaded yet
+data.ok <- exists('FGF.all') 
+tables.ok <- exists('FGF.sum')
+if (data.ok == FALSE) {
+        source('Transformations.R')
+}
+rm(data.ok)
+if (tables.ok == FALSE) {
+        source('tables.R')
+}
+rm(tables.ok)
+
+# Create object for identity colors
+idcols <- c('EPI' = 'red', 'PRE' = 'blue', 'DP' = 'purple', 'DN' = 'gray', 
+            'TE' = 'green', 'ICM' = 'purple')
 
 # Figure 3b
 
@@ -29,9 +42,7 @@ fig3c <- qplot(Identity, CH2,
                fill = Identity, 
                ylab = 'log[OCT4]', 
                geom = c('boxplot', 'jitter')) + 
-        scale_fill_manual(values = c('TE' = 'green', 
-                                     'EPI' = 'red', 
-                                     'PRE' = 'blue')) + 
+        scale_fill_manual(values = idcols) + 
         facet_grid( ~ Treatment) + 
         theme_bw() + coord_fixed()
 print(fig3c)
@@ -53,8 +64,7 @@ figS5a <- qplot(Regime, CH5,
                 geom = c('boxplot', 'jitter'), 
                 ylab = 'log[NANOG]') + 
         facet_grid( ~ Treatment) + 
-        scale_fill_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
-                                     'DP' = 'purple', 'DN' = 'gray')) + 
+        scale_fill_manual(values = idcols) + 
         theme_bw() + coord_fixed(1)
 print(figS5a)
 
@@ -67,9 +77,7 @@ figS5b <- qplot(Identity, CH2.logCor,
                 fill = Identity, 
                 ylab = 'log[OCT4]', 
                 geom = c('boxplot', 'jitter')) + 
-        scale_fill_manual(values = c('TE' = 'green', 
-                                     'EPI' = 'red', 
-                                     'PRE' = 'blue')) + 
+        scale_fill_manual(values = idcols) + 
         facet_grid( ~ Treatment) + 
         theme_bw() + coord_fixed()
 print(figS5b)

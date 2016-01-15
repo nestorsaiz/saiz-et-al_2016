@@ -1,9 +1,21 @@
 # Saiz *et al* (2016)
 # Figures 2, S2, S3 and S4 plots
 
-# Load data and apply transformations
-source('Transformations.R')
-source('tables.R')
+# Load data and apply transformations if not loaded yet
+data.ok <- exists('FGF.all') 
+tables.ok <- exists('FGF.sum')
+if (data.ok == FALSE) {
+        source('Transformations.R')
+}
+rm(data.ok)
+if (tables.ok == FALSE) {
+        source('tables.R')
+}
+rm(tables.ok)
+
+# Create object for identity colors
+idcols <- c('EPI' = 'red', 'PRE' = 'blue', 'DP' = 'purple', 'DN' = 'gray', 
+            'TE' = 'green', 'ICM' = 'purple')
 
 # Figure 2b
 
@@ -22,8 +34,7 @@ fig2b <- qplot(CH4.logCor, CH5.logCor,
                xlim = c(0, 8), ylim = c(0, 8)#, alpha = I(0.25)
                ) + 
         facet_grid(Regime ~ Treatment) + 
-        scale_color_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
-                                      'DP' = 'purple', 'DN' = 'gray')) + 
+        scale_color_manual(values = idcols)) + 
         theme_bw() + coord_fixed()
 print(fig2b)
 
@@ -40,8 +51,7 @@ fig2d <- qplot(Regime, data = FGF.all %>%
                               Regime != 'R9', 
                               Regime != 'R3L'),
                fill = Identity.auto, geom = 'bar', position = 'fill') + 
-        scale_fill_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
-                                     'DP' = 'purple', 'DN' = 'gray')) + 
+        scale_fill_manual(values = idcols) + 
         facet_wrap(~Treatment) + 
         theme_bw() + coord_fixed(5)
 print(fig2d)
@@ -62,8 +72,7 @@ figS2a <- qplot(CH4.logCor, CH5.logCor,
                 color = Identity.auto, 
                 xlim = c(0, 8), ylim = c(0, 8)) + 
         facet_grid(Regime~Treatment) + 
-        scale_color_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
-                                      'DP' = 'purple', 'DN' = 'gray')) + 
+        scale_color_manual(values = idcols) + 
         theme_bw() + coord_fixed()
 print(figS2a)
 
@@ -80,9 +89,8 @@ figS2c <- qplot(Regime, data = FGF.all %>%
                                Regime != 'R9', 
                                Regime != 'R3L'),
                 fill = Identity.auto, geom = 'bar', position = 'fill') + 
-        scale_fill_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
-                                     'DP' = 'purple', 'DN' = 'gray')) + 
-        facet_wrap(~Treatment) + 
+        scale_fill_manual(values = idcols) + 
+        facet_wrap( ~ Treatment) + 
         theme_bw() + coord_fixed(5)
 print(figS2c)
 
@@ -124,8 +132,7 @@ figS3b <- qplot(Regime, Count, data = FGF.ICMsum %>%
                                Regime != 'R3L'), 
                 fill = Identity.auto, 
                 geom = c('boxplot', 'jitter')) + 
-        scale_fill_manual(values = c('EPI' = 'red', 'PRE' = 'blue', 
-                                     'DP' = 'purple', 'DN' = 'gray')) + 
+        scale_fill_manual(values = idcols) + 
         theme_bw() + facet_grid(. ~ Treatment) + coord_fixed(1/10)
 print(figS3b)
 
@@ -149,7 +156,7 @@ figS3c <- qplot(Regime, pcTotal_avg,
                 geom = 'bar', 
                 fill = TE_ICM) + 
         theme_bw() + facet_grid(. ~ Treatment) + 
-        scale_fill_manual(values = c('TE' = 'green', 'ICM' = 'purple')) + 
+        scale_fill_manual(values = idcols) + 
         geom_bar(stat = 'identity') + coord_fixed(1/15)
 print(figS3c)
         
@@ -164,7 +171,7 @@ figS3d <- qplot(Regime, Count, data = FGF.sum %>%
                                Regime != 'R9', 
                                Regime != 'R3L'), 
                 fill = TE_ICM, geom = c('boxplot', 'jitter')) + 
-        scale_fill_manual(values = c('TE' = 'green', 'ICM' = 'purple')) + 
+        scale_fill_manual(values = idcols) + 
         theme_bw() + facet_grid(. ~ Treatment) + coord_fixed(1/20)
 print(figS3d)
 
@@ -189,10 +196,7 @@ for (r in regimes){
                               fill = Identity.auto, geom = 'bar', 
                               position = 'fill', 
                               main = r, xlab = t) + 
-                        scale_fill_manual(values = c('EPI' = 'red', 
-                                                     'PRE' = 'blue', 
-                                                     'DP' = 'purple', 
-                                                     'DN' = 'gray')) + 
+                        scale_fill_manual(values = idcols) + 
                         theme_bw() + coord_fixed(10)
                 print(plot)
         }

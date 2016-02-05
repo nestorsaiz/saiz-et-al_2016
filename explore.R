@@ -26,7 +26,7 @@ explore <- function(dataset, channel = 2) {
         dataset$Level <- dataset$Level + 0.0001
         # Create vector with colors for each identity
         idcols <<- c('EPI' = 'red', 'PRE' = 'blue', 'DP' = 'purple', 
-                    'DN' = 'gray', 'TE' = 'green')
+                    'DN' = 'gray', 'TE' = 'green', 'ICM' = 'purple')
         # Plot log(Levels) over Z and color-code for identity
         raw <- ggplot(dataset, aes(x = Z, y = log(Level)))
         raw <- raw + geom_point(aes(color = Identity), size = I(1))

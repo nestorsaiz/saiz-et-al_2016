@@ -14,7 +14,6 @@ FGF.all <- read.csv('FGF_all_pooled.csv', header = TRUE, sep = ',')
 
 # Add TE vs ICM column
 FGF.all$TE_ICM <- ifelse(FGF.all$Identity == 'TE', 'TE', 'ICM')
-FGF.all$TE_ICM <- factor(FGF.all$TE_ICM, levels = c('ICM', 'TE'))
 
 # Add experimental point:
 # start (sp): reference littermates ('Littermate') 

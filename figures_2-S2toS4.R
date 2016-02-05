@@ -19,41 +19,57 @@ idcols <- c('EPI' = 'red', 'PRE' = 'blue', 'DP' = 'purple', 'DN' = 'gray',
 
 # Figure 2b
 
-fig2b <- qplot(CH4.logCor, CH5.logCor, 
-               data = FGF.all %>% 
-                       filter(Treatment == 'Control' | 
-                                      Treatment == 'FGF4_1000' | 
-                                      Treatment == 'PD03_1',
-                              Xpoint != 'xp', 
-                              TE_ICM != 'TE', 
-                              Markers == 'C2G6NG', 
-                              Regime != 'R8', 
-                              Regime != 'R9', 
-                              Regime != 'R3L'),
-               color = Identity.auto, 
-               xlim = c(0, 8), ylim = c(0, 8)#, alpha = I(0.25)
-               ) + 
-        facet_grid(Regime ~ Treatment) + 
-        scale_color_manual(values = idcols)) + 
-        theme_bw() + coord_fixed()
+fig2b <- ggplot(FGF.all %>% 
+                        ## Filter ICM cells of end point embryos 
+                        ## for Regimes 1, 5, 3, 4 and 6;
+                        ## treated with FGF4 and PD03 against Control
+                        filter(Treatment == 'Control' | 
+                                       Treatment == 'FGF4_1000' | 
+                                       Treatment == 'PD03_1',
+                               Xpoint != 'xp', 
+                               TE_ICM != 'TE', 
+                               Markers == 'C2G6NG', 
+                               Regime != 'R8', 
+                               Regime != 'R9', 
+                               Regime != 'R3L'),
+                ## Plot log(GATA6) against log(NANOG)
+                aes(x = CH4.ebLogCor, y = CH5.ebLogCor))
+fig2b <- fig2b + geom_point(aes(color = Identity.auto), size = I(0.75))
+fig2b <- fig2b + geom_density2d(color = I('orangered4'), size = 0.25, bins = 7)
+## Set up axes limits
+fig2b <- fig2b + xlim(0, 8) + ylim(0, 8)
+## Set up plot aesthetics
+fig2b <- fig2b + scale_color_manual(values = idcols)
+fig2b <- fig2b + theme_bw() + coord_fixed()
+fig2b <- fig2b + labs(color = 'Identity', x = 'log(GATA6)', y = 'log(NANOG)')
+## Arrange by Treatment condition (X axis) and Treatment regime (Y axis)
+fig2b <- fig2b + facet_grid(Regime ~ Treatment)
 print(fig2b)
-
+        
 # Figure 2d
 
-fig2d <- qplot(Regime, data = FGF.all %>% 
-                       filter(Treatment == 'Control' | 
-                                      Treatment == 'FGF4_1000' | 
-                                      Treatment == 'PD03_1', 
-                              Xpoint != 'xp', 
-                              TE_ICM != 'TE', 
-                              Markers == 'C2G6NG', 
-                              Regime != 'R8', 
-                              Regime != 'R9', 
-                              Regime != 'R3L'),
-               fill = Identity.auto, geom = 'bar', position = 'fill') + 
-        scale_fill_manual(values = idcols) + 
-        facet_wrap(~Treatment) + 
-        theme_bw() + coord_fixed(5)
+fig2d <- ggplot(FGF.all %>% 
+                        ## Filter ICM cells of end point embryos 
+                        ## for Regimes 1, 5, 3, 4 and 6;
+                        ## treated with FGF4 and PD03 against Control
+                        filter(Treatment == 'Control' | 
+                                       Treatment == 'FGF4_1000' | 
+                                       Treatment == 'PD03_1', 
+                               Xpoint != 'xp', 
+                               TE_ICM != 'TE', 
+                               Markers == 'C2G6NG', 
+                               Regime != 'R8', 
+                               Regime != 'R9', 
+                               Regime != 'R3L'),
+                ## Plot each treatment regime against ICM composition
+                aes(x = Regime, fill = Identity.auto))
+fig2d <- fig2d + geom_bar(position = 'fill')
+## Set up plot aesthetics
+fig2d <- fig2d + scale_fill_manual(values = idcols)
+fig2d <- fig2d + theme_bw() + coord_fixed(5)
+fig2d <- fig2d + labs(fill = 'Identity', x = 'Treatment regime', y = '% of ICM')
+## Group by treatment condition
+fig2d <- fig2d + facet_wrap( ~ Treatment)
 print(fig2d)
 
 # Figure S2a
@@ -69,11 +85,12 @@ figS2a <- qplot(CH4.logCor, CH5.logCor,
                                Regime != 'R8', 
                                Regime != 'R9', 
                                Regime != 'R3L'),
-                color = Identity.auto, 
+                color = Identity.auto, size = I(0.75),
                 xlim = c(0, 8), ylim = c(0, 8)) + 
         facet_grid(Regime~Treatment) + 
         scale_color_manual(values = idcols) + 
         theme_bw() + coord_fixed()
+figS2a <- figS2a + geom_density2d(color = I('orangered4'), size = 0.25, bins = 7)
 print(figS2a)
 
 # Figure S2c
@@ -130,8 +147,8 @@ figS3b <- qplot(Regime, Count, data = FGF.ICMsum %>%
                                Regime != 'R8', 
                                Regime != 'R9', 
                                Regime != 'R3L'), 
-                fill = Identity.auto, 
-                geom = c('boxplot', 'jitter')) + 
+                fill = Identity.auto, color = I('black'),
+                geom = c('boxplot')) + 
         scale_fill_manual(values = idcols) + 
         theme_bw() + facet_grid(. ~ Treatment) + coord_fixed(1/10)
 print(figS3b)

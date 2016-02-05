@@ -19,31 +19,33 @@ idcols <- c('EPI' = 'red', 'PRE' = 'blue', 'DP' = 'purple', 'DN' = 'gray',
 
 # Figure 4b
 
-fig4b <- qplot(CH4.logCor, CH5.logCor, 
+fig4b <- qplot(CH4.ebLogCor, CH5.ebLogCor, 
                data = FGF.all %>% 
                        filter(TE_ICM != 'TE', 
                               Xpoint == 'xp', 
                               Regime == 'R9'),
-               color = Identity.auto, 
+               color = Identity.auto, size = I(1.5), 
                ylim = c(-3, 8), xlim = c(-3, 8)) + 
         facet_grid( ~ Treatment) + 
         scale_color_manual(values = idcols) + 
-        theme_bw() + coord_fixed()
+        theme_bw() + coord_fixed() + 
+        geom_density2d(color = I('orangered4'), size = 0.5, bins = 7)
 print(fig4b)
 
 # Figure 4d&h
 
-fig4dh <- qplot(CH4.logCor, CH5.logCor, 
+fig4dh <- qplot(CH4.ebLogCor, CH5.ebLogCor, 
                 data = FGF.all %>% 
                         filter(TE_ICM != 'TE', 
                                #Treatment != 'FGF42PD', 
                                Xpoint == 'ep', 
                                Regime == 'R9'),
-                color = Identity.auto, 
+                color = Identity.auto, size = I(1.5), 
                 ylim = c(0, 8), xlim = c(0, 8)) + 
         facet_grid( ~ Treatment) + 
         scale_color_manual(values = idcols) + 
-        theme_bw() + coord_fixed()
+        theme_bw() + coord_fixed() + 
+        geom_density2d(color = I('orangered4'), size = 0.5, bins = 7)
 print(fig4dh)
 
 # Figure 4f
@@ -51,15 +53,15 @@ print(fig4dh)
 fig4f <- qplot(Treatment, data = FGF.all %>%
                        filter(Regime == 'R9', 
                               TE_ICM != 'TE'), 
-               fill = Identity, geom = 'bar', position = 'fill') + 
+               fill = Identity.auto, geom = 'bar', position = 'fill') + 
         scale_fill_manual(values = idcols) + 
         facet_wrap( ~ Xpoint) + 
         theme_bw() + coord_fixed(5)
 print(fig4f)
 
-# Figure S6b
+# Figure S6c
 
-figS6b <- qplot(Treatment, Cellcount, 
+figS6c <- qplot(Treatment, Cellcount, 
                 data = FGF.all %>%
                         group_by(Embryo_ID,
                                  Regime,
@@ -72,32 +74,33 @@ figS6b <- qplot(Treatment, Cellcount,
                         filter(Regime == 'R8' | 
                                        Regime == 'R9', 
                                Treatment != 'FGF42PD'), 
-                geom = c('boxplot', 'jitter'), 
+                geom = c('boxplot', 'jitter'),
                 fill = I('gray')) + coord_fixed(0.03) + 
         theme_bw() + facet_grid(Regime ~ Xpoint)
-print(figS6b)
+print(figS6c)
 
-# Figure S6c
+# Figure S6b
 
-figS6c <- qplot(CH4.logCor, CH5.logCor, 
+figS6b <- qplot(CH4.ebLogCor, CH5.ebLogCor, 
                 data = FGF.all %>% 
                         filter(TE_ICM != 'TE', 
                                Treatment != 'FGF42PD', 
                                Regime == 'R8', 
                                Xpoint == 'xp'),
-                color = Identity, 
+                color = Identity.auto, size = I(1.5), 
                 xlim = c(-3, 8), ylim = c(-3, 8)) + 
         facet_grid( ~ Treatment) + 
         scale_color_manual(values = idcols) + 
-        theme_bw() + coord_fixed()
-print(figS6c)
+        theme_bw() + coord_fixed() +
+        geom_density2d(color = I('orangered4'), size = 0.5, bins = 7)
+print(figS6b)
 
 # Figure S6d
 
 figS6d <- qplot(Treatment, data = FGF.all %>%
                         filter(Regime == 'R8', 
                                TE_ICM != 'TE'), 
-                fill = Identity, geom = 'bar', position = 'fill') + 
+                fill = Identity.auto, geom = 'bar', position = 'fill') + 
         scale_fill_manual(values = idcols) + 
         facet_wrap( ~ Xpoint) + 
         theme_bw() + coord_fixed(5)

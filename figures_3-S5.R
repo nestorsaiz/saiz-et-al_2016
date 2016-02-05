@@ -21,7 +21,7 @@ idcols <- c('EPI' = 'red', 'PRE' = 'blue', 'DP' = 'purple', 'DN' = 'gray',
 
 # Figure 3b
 
-fig3b <- cloud(CH2.logCor ~ CH4.logCor * CH5.logCor | 
+fig3b <- cloud(CH2.logCor ~ CH4.ebLogCor * CH5.ebLogCor | 
                        factor(Treatment, labels = c('Control', 'FGF4', 'ERKi', 
                                                     'AZD4547', 'SU5402')) + 
                        factor(TE_ICM), 
@@ -36,12 +36,12 @@ print(fig3b)
 # Figure 3c
 
 fig3c <- qplot(Identity, CH2,
-               data = FGF.ICMsum %>% 
+               data = FGF.ICMsumO4 %>% 
                        filter(Markers == 'O4G4NG', 
                               Identity != 'DP'), 
                fill = Identity, 
-               ylab = 'log[OCT4]', 
-               geom = c('boxplot', 'jitter')) + 
+               ylab = 'log[OCT4]', ylim = c(3, 5.5),
+               geom = c('boxplot', 'jitter'), color = I('black')) + 
         scale_fill_manual(values = idcols) + 
         facet_grid( ~ Treatment) + 
         theme_bw() + coord_fixed()
@@ -49,35 +49,35 @@ print(fig3c)
 
 # Figure S5a
 
-figS5a <- qplot(Regime, CH5, 
-                data = FGF.ICMsum %>%
-                        filter(Treatment != 'Littermate', 
-                               Treatment != 'SU_10', 
-                               Xpoint != 'xp', 
-                               Markers == 'C2G6NG', 
-                               Regime != 'R8', 
-                               Regime != 'R9', 
-                               Regime != 'R3L', 
-                               Identity.auto == 'EPI' | 
-                                       Identity.auto == 'PRE'), 
-                fill = Identity.auto, 
-                geom = c('boxplot', 'jitter'), 
-                ylab = 'log[NANOG]') + 
-        facet_grid( ~ Treatment) + 
-        scale_fill_manual(values = idcols) + 
-        theme_bw() + coord_fixed(1)
+figS5a <- ggplot(FGF.ICMsum %>%
+                         filter(Treatment != 'Littermate', 
+                                Treatment != 'SU_10', 
+                                Xpoint != 'xp', 
+                                Markers == 'C2G6NG', 
+                                Regime != 'R8', 
+                                Regime != 'R9', 
+                                Regime != 'R3L', 
+                                Identity.auto == 'EPI' | 
+                                        Identity.auto == 'PRE'), 
+                 aes(x = Regime, y = CH5))
+figS5a <- figS5a + geom_boxplot(aes(fill = Identity.auto), color = 'black')
+figS5a <- figS5a + geom_jitter(color = 'black', size = I(1.2))
+figS5a <- figS5a + scale_fill_manual(values = idcols)
+figS5a <- figS5a + labs(y = 'log[NANOG]', fill = 'Identity')
+figS5a <- figS5a + facet_grid( ~ Treatment)
+figS5a <- figS5a + theme_bw() + coord_fixed(1)
 print(figS5a)
 
 # Figure S5b
 
-figS5b <- qplot(Identity, CH2.logCor,
-                data = FGF.all %>% 
-                        filter(Markers == 'O4G4NG', 
-                               Identity != 'DP'), 
-                fill = Identity, 
-                ylab = 'log[OCT4]', 
-                geom = c('boxplot', 'jitter')) + 
-        scale_fill_manual(values = idcols) + 
-        facet_grid( ~ Treatment) + 
-        theme_bw() + coord_fixed()
+figS5b <- ggplot(FGF.all %>% 
+                         filter(Markers == 'O4G4NG', 
+                                Identity != 'DP'),
+                 aes(x = Identity, y = CH2.logCor))
+figS5b <- figS5b + geom_boxplot(aes(fill = Identity), color = 'black')
+figS5b <- figS5b + geom_jitter(color = 'black', size = I(1.2))
+figS5b <- figS5b + labs(y = 'log[OCT4]')
+figS5b <- figS5b + facet_grid( ~ Treatment)
+figS5b <- figS5b + scale_fill_manual(values = idcols)
+figS5b <- figS5b + theme_bw() + coord_fixed()
 print(figS5b)

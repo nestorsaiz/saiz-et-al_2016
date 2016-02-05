@@ -64,7 +64,6 @@ FGF.sum <- FGF.all %>%
                  Markers, Xpoint, Cellcount, TE_ICM) %>%
         summarise(Count = n()) %>%
         mutate(pcTotal = Count / Cellcount * 100)
-head(FGF.sum)
 
 # Count ICM cells only for each embryo 
 # calculate count for each identity
@@ -77,12 +76,23 @@ FGF.ICMsum <- FGF.all %>%
                  Cellcount, Identity.auto, Xpoint, 
                  Identity, Markers) %>%
         summarise(Count = n(), 
-                  CH1 = mean(CH1.logCor, na.rm = TRUE),
-                  CH2 = mean(CH2.logCor, na.rm = TRUE), 
-                  CH4 = mean(CH4.logCor, na.rm = TRUE), 
-                  CH5 = mean(CH5.logCor, na.rm = TRUE))
-head(FGF.ICMsum)
-str(FGF.ICMsum)
+                  CH1 = mean(CH1.ebLogCor, na.rm = TRUE),
+                  CH4 = mean(CH4.ebLogCor, na.rm = TRUE), 
+                  CH5 = mean(CH5.ebLogCor, na.rm = TRUE))
+
+# Build equivalent table to FGF.ICMsum, 
+# only for embryos stained with OCT4, GATA4 and NANOG
+FGF.ICMsumO4 <- FGF.all %>%
+        filter(TE_ICM == 'ICM', Markers == 'O4G4NG') %>%
+        group_by(Embryo_ID, Experiment, Regime, 
+                 Stage, Treatment, Tt_length, 
+                 Cellcount, Identity.auto, Xpoint, 
+                 Identity, Markers) %>%
+        summarise(Count = n(), 
+                  CH1 = mean(CH1.ebLogCor, na.rm = TRUE),
+                  CH2 = mean(CH2.logCor, na.rm = TRUE),
+                  CH4 = mean(CH4.ebLogCor, na.rm = TRUE), 
+                  CH5 = mean(CH5.ebLogCor, na.rm = TRUE))
 
 # # FGFRi summary
 # Ri <- FGF_all %>%

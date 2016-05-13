@@ -1,3 +1,14 @@
+# Load necessary packages
+library(ggplot2)
+library(plyr)
+library(dplyr)
+library(knitr)
+
+# Run the following custom functions
+source('stage.R')
+source('correct.fgf.R')
+source('identify.R')
+
 # Load in transformed data
 FGF.all <- readRDS('FGF_all_pooled_trans.rds')
 

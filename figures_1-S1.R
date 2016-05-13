@@ -31,10 +31,11 @@ fig1c <- ggplot(FGF.all %>%
                 aes(x = CH4.ebLogCor, y = CH5.ebLogCor))
 ## Color-code for identity, as assigned automatically with 'identify.R'
 fig1c <- fig1c + geom_point(aes(color = Identity.auto), size = I(1.2))
-fig1c <- fig1c + geom_density2d(color = I('orangered4'), size = 0.5, bins = 7)
+## Overlay 
+fig1c <- fig1c + geom_density2d(color = I('orangered4'), size = 0.5)
 fig1c <- fig1c + scale_color_manual(values = idcols)
 ## Set limits for X and Y axes
-fig1c <- fig1c + xlim(-5, 8.5) + ylim(-5, 8.5)
+fig1c <- fig1c + xlim(-5, 9) + ylim(-5, 9)
 ## Set aesthetis for the plot
 fig1c <- fig1c + theme_bw()
 fig1c <- fig1c + labs(color = 'Identity', x = 'log[GATA6]', y = 'log[NANOG]')

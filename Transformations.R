@@ -46,7 +46,7 @@ FGF.all$Markers <- as.factor(FGF.all$Markers)
 FGF.all <- correct.fgf(FGF.all)
 
 # Identity assignment
-FGF.all <- identify(FGF.all)
+#FGF.all <- identify(FGF.all)
 
 # Order the variables as desired
 FGF.all$Regime <- factor(FGF.all$Regime, 
@@ -57,7 +57,7 @@ FGF.all$Treatment <- factor(FGF.all$Treatment,
                                        'AZD_1', 'SU_10', 'SU_20', 'FGF42PD'))
 FGF.all$Identity <- factor(FGF.all$Identity, 
                            levels = c('TE', 'DN', 'EPI', 'DP', 'PRE'))
-FGF.all$Identity.auto <- factor(FGF.all$Identity.auto, levels = c('TE', 'DN', 'EPI', 'DP', 'PRE'))
+#FGF.all$Identity.auto <- factor(FGF.all$Identity.auto, levels = c('TE', 'DN', 'EPI', 'DP', 'PRE'))
 FGF.all$TE_ICM <- factor(FGF.all$TE_ICM, levels = c('ICM', 'TE'))
 
 # Check structure

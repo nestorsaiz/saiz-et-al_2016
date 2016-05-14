@@ -11,13 +11,15 @@ FGF.log <- FGF.all %>%
                  Experimenter, 
                  Regime, 
                  Treatment, 
-                 Tt_length) %>%
+                 Tt_length, 
+                 Xpoint) %>%
         summarize(Cells = n()) %>%
         group_by(Experiment, 
                  Experimenter, 
                  Regime, 
                  Treatment, 
-                 Tt_length) %>%
+                 Tt_length, 
+                 Xpoint) %>%
         summarize(Embryos = n(), 
                   Avg.count = mean(Cellcount))
 # Write 'Experimental_log.csv' file

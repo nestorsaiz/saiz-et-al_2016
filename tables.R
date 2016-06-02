@@ -5,7 +5,8 @@
 # Count all embryos analyzed, 
 # group by Regime and treatment 
 # (and experimental point)
-FGF.allembryos <- FGF.all %>%
+FGF.allembryos <- FGF.all %>% 
+        filter(Exp_date != '20150820') %>% 
         group_by(Embryo_ID, Regime, 
                  Treatment, 
                  Xpoint) %>%
@@ -17,7 +18,8 @@ FGF.allembryos <- FGF.all %>%
 # Only Littermates, 
 # grouped by Stage
 FGF.lm.embryos <- FGF.all %>%
-        filter(Treatment == 'Littermate') %>%
+        filter(Treatment == 'Littermate', 
+               Exp_date != '20150820') %>%
         group_by(Embryo_ID, Stage) %>%
         summarise(Cells = n()) %>%
         group_by(Stage) %>%
@@ -42,7 +44,8 @@ FGF.allcells <- FGF.all %>%
 # Count ICM cells in all embryos
 # group by Regime and treatment
 # (and X point and treatment length)
-FGF.all.ICMcells <- FGF.all %>%
+FGF.all.ICMcells <- FGF.all %>% 
+        filter(Exp_date != '20150820') %>% 
         group_by(Regime, Treatment, Tt_length, 
                  Xpoint, TE_ICM) %>%
         filter(TE_ICM == 'ICM') %>%
@@ -52,9 +55,13 @@ FGF.all.ICMcells <- FGF.all %>%
 # group by Stage
 FGF.lm.ICMcells <- FGF.all %>%
         filter(TE_ICM == 'ICM', 
-               Treatment == 'Littermate') %>%
+               Treatment == 'Littermate', 
+               Exp_date != '20150820') %>%
         group_by(Stage, Treatment, TE_ICM) %>%
         summarise(ICMcells = n())
+
+# Table for N numbers in Figure 1c
+FGF.lms <- merge(FGF.lm.embryos, FGF.lm.ICMcells)
 
 # Count TE and ICM cells for each embryo
 # and calculate absolute count and % of total

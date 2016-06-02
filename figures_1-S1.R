@@ -247,6 +247,7 @@ print(figs1d)
 ## in individual ICM cells of embryos collected at sequential stages 
 ## of development as in Fig. 1b ('Littermates', from 32-cells onwards). 
 ## Each dot represents a single ICM cell.
+FGF.all$ratio <- FGF.all$CH4.ebLogCor - FGF.all$CH5.ebLogCor
 figs1e <- ggplot(FGF.all %>% 
                         ## Select ICM cells of Littermates with 32 or more cells
                         filter(Treatment == 'Littermate',
@@ -256,9 +257,10 @@ figs1e <- ggplot(FGF.all %>%
                 ## Plot corrected log of GATA6 (CH4) vs NANOG (CH5) fluorescence
                 aes(x = exp(CH4.ebLogCor), y = exp(CH5.ebLogCor)))
 ## Color-code for identity, as assigned automatically with 'identify.R'
-figs1e <- figs1e + geom_point(aes(color = Identity.auto), size = I(1.2))
+figs1e <- figs1e + geom_point(aes(colour = ratio), size = I(1.2))
 ## Overlay 
-figs1e <- figs1e + scale_color_manual(values = idcols)
+#figs1e <- figs1e + scale_color_manual(values = idcols)
+figs1e <- figs1e + scale_color_gradient2(low = 'red3', mid = 'purple', high = 'blue3')
 ## Set limits for X and Y axes
 figs1e <- figs1e + xlim(0, 255) + ylim(0, 255)
 ## Set aesthetis for the plot

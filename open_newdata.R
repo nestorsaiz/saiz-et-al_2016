@@ -16,6 +16,6 @@ FGF.all <- readRDS('FGF_all_pooled_trans.rds')
 FGF.all <- identify(FGF.all)
 # Order factors in Identity.auto
 FGF.all$Identity.auto <- factor(FGF.all$Identity.auto, 
-                                levels = c('ICM', 'TE', 'DN', 'EPI', 'DP', 'PRE'))
+                                levels = c('DN', 'EPI', 'DP', 'PRE', 'ICM', 'TE'))
 # Stage embryos
 FGF.all <- stage(FGF.all)

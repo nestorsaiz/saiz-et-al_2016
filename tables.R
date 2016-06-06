@@ -66,6 +66,7 @@ FGF.lms <- merge(FGF.lm.embryos, FGF.lm.ICMcells)
 # Count TE and ICM cells for each embryo
 # and calculate absolute count and % of total
 FGF.sum <- FGF.all %>% 
+        filter(Exp_date != '20150820') %>%
         group_by(Embryo_ID, Experiment, Experimenter, 
                  Regime, Stage, Treatment, Tt_length, 
                  Markers, Xpoint, Cellcount, TE_ICM) %>%
@@ -77,7 +78,8 @@ FGF.sum <- FGF.all %>%
 # and % of ICM for each identity
 # and calculate average levels for each channel
 FGF.ICMsum <- FGF.all %>%
-        filter(TE_ICM == 'ICM') %>%
+        filter(TE_ICM == 'ICM', 
+               Exp_date != '20150820') %>%
         group_by(Embryo_ID, Experiment, Regime, 
                  Stage, Treatment, Tt_length, 
                  Cellcount, Identity.auto, Xpoint, 

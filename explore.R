@@ -26,7 +26,7 @@ explore <- function(dataset, channel = 2) {
         dataset$Level <- dataset$Level + 0.0001
         # Create vector with colors for each identity
         idcols <<- c('EPI' = 'red', 'PRE' = 'blue', 'DP' = 'purple', 
-                    'DN' = 'gray', 'TE' = 'green', 'ICM' = 'purple')
+                    'DN' = 'gray', 'TE' = 'green', 'ICM' = 'purple', 'ESC' = 'red4')
         # Plot log(Levels) over Z and color-code for identity
         raw <- ggplot(dataset, aes(x = Z, y = log(Level)))
         raw <- raw + geom_point(aes(color = Identity), size = I(1))
@@ -86,6 +86,7 @@ explore <- function(dataset, channel = 2) {
         print(separate)
 }
 
+# Same as explore but will facet graphs per stage
 explore.s <- function(dataset, channel = 2) { 
         # Eliminate unnecessary variables
         dataset$CH1.Sum <- NULL

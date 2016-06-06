@@ -32,7 +32,7 @@ fig1c <- ggplot(FGF.all %>%
                 aes(x = CH4.ebLogCor, y = CH5.ebLogCor))
 ## Color-code for identity, as assigned automatically with 'identify.R'
 fig1c <- fig1c + geom_point(aes(color = Identity.auto), size = I(1.2))
-## Overlay 
+## Overlay estimated density contour lines
 fig1c <- fig1c + geom_density2d(color = I('orangered4'), size = 0.5)
 fig1c <- fig1c + scale_color_manual(values = idcols)
 ## Set limits for X and Y axes
@@ -157,19 +157,21 @@ print(fig1g)
 # Figure S1a
 ## Boxplot of total cell number for embryos in Fig. 1
 ## binned by developmental stage
-figS1a <- ggplot(FGF.all %>%
+figS1a <- ggplot(FGF.all %>% 
                          ## Select Littermates only with >32 cells
+                         ## and exclude experiment from 08/20/2015
+                         filter(Treatment == 'Littermate', 
+                                Exp_date != '20150820', 
+                                Stage != '<32') %>% 
                          group_by(Embryo_ID, 
                                   Treatment, 
                                   Cellcount, 
                                   Stage) %>%
-                         summarise() %>% 
-                         filter(Treatment == 'Littermate', 
-                                Exp_date != '20150820', 
-                                Stage != '<32'), 
+                         summarise(), 
                  aes(x = Stage, y = Cellcount))
 ## Create boxplots for each stage
-figS1a <- figS1a + geom_boxplot(fill = 'gray', color = 'black')
+figS1a <- figS1a + geom_boxplot(fill = 'gray', color = 'black', 
+                                outlier.shape = 1)
 ## Overlay a dot for each embryo's cell count
 figS1a <- figS1a + geom_jitter(size = I(1.2), color = 'black')
 ## Set up Y-axis limits and aesthetics for the plot
@@ -185,12 +187,12 @@ print(figS1a)
 figS1b <- ggplot(FGF.ICMsum %>%
                          ## Select Littermates with more than 32 cells
                          filter(Treatment == 'Littermate', 
-                                Exp_date != '20150820', 
                                 Stage != '<32'), 
                  ## Plot number of cells for each lineage on the Y axis
                  aes(x = Stage, y = Count))
 ## Create boxplots for each lineage, for each stage
-figS1b <- figS1b + geom_boxplot(aes(fill = Identity.auto), color = I('black'))
+figS1b <- figS1b + geom_boxplot(aes(fill = Identity.auto), color = I('black'), 
+                                outlier.shape = 1)
 ## Overlay a dot for each lineage's cell count (per embryo)
 #figS1b <- figS1b + geom_jitter(aes(color = Identity.auto), size = I(1.2))
 ## Color-code for identity
@@ -209,12 +211,13 @@ print(figS1b)
 figS1c <- ggplot(FGF.sum %>% 
                          ## Select Littermates with more than 32 cells
                          filter(Treatment == 'Littermate', 
-                                Exp_date != '20150820', 
                                 Stage != '<32'), 
                  ## Plot number of ICM or TE cells on the Y axis
                  aes(x = Stage, y = Count))
-figS1c <- figS1c + geom_boxplot(aes(fill = TE_ICM), color = I('black'))
-figS1c <- figS1c + geom_jitter(color = 'black', size = I(1.2))
+figS1c <- figS1c + geom_boxplot(aes(fill = TE_ICM), color = I('black'), 
+                                outlier.shape = 1)
+figS1c <- figS1c + geom_jitter(aes(shape = TE_ICM), color = 'black', 
+                               size = I(1.2))
 figS1c <- figS1c + scale_fill_manual(values = idcols)
 figS1c <- figS1c + theme_bw() + coord_fixed(0.075)
 figS1c <- figS1c + labs(fill = 'Identity', x = 'Stage', y = 'Number of cells')
@@ -256,11 +259,12 @@ figs1e <- ggplot(FGF.all %>%
                                Stage != '<32'),
                 ## Plot corrected log of GATA6 (CH4) vs NANOG (CH5) fluorescence
                 aes(x = exp(CH4.ebLogCor), y = exp(CH5.ebLogCor)))
-## Color-code for identity, as assigned automatically with 'identify.R'
 figs1e <- figs1e + geom_point(aes(colour = ratio), size = I(1.2))
-## Overlay 
+figs1e <- figs1e + geom_abline(slope = 1/exp(0.5), intercept = 0, linetype = 2)
+figs1e <- figs1e + geom_abline(slope = 1/exp(-1.5), intercept = 0, linetype = 2)
 #figs1e <- figs1e + scale_color_manual(values = idcols)
-figs1e <- figs1e + scale_color_gradient2(low = 'red3', mid = 'purple', high = 'blue3')
+## Color with a gradient based on the ratio of GATA6 to NANOG
+figs1e <- figs1e + scale_color_gradient2(low = 'red', mid = 'purple', high = 'blue')
 ## Set limits for X and Y axes
 figs1e <- figs1e + xlim(0, 255) + ylim(0, 255)
 ## Set aesthetis for the plot

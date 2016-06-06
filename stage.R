@@ -25,35 +25,3 @@ stage <- function(dataset){
                                                           '120_150', '>150'))
         return(dataset)
 }
-
-stage2 <- function(dataset){
-        # Given a certain dataset, evaluate the cell count of each embryo
-        # and assign values to a new 'S2' columns accordingly
-        # etc
-        dataset$S2 <- ifelse(dataset$Cellcount >= 150, 
-                             '150', 
-                             ifelse(dataset$Cellcount >= 130 & 
-                                            dataset$Cellcount < 150, 
-                                    '130_150', 
-                                    ifelse(dataset$Cellcount >= 110 &
-                                                   dataset$Cellcount < 130, 
-                                           '110_130',
-                                           ifelse(dataset$Cellcount >= 90 &
-                                                          dataset$Cellcount < 110, 
-                                                  '90_110', 
-                                                  ifelse(dataset$Cellcount >= 70 & 
-                                                                 dataset$Cellcount < 90, 
-                                                         '70_90',
-                                                         ifelse(dataset$Cellcount < 70 & 
-                                                                        dataset$Cellcount >= 50, 
-                                                                '50_70',
-                                                                ifelse(dataset$Cellcount < 50 & 
-                                                                               dataset$Cellcount >= 32,
-                                                                       '32_50', '<32')))))))
-        # Convert 'S2' into a factor with the levels ordered
-        # in increasing number of cells
-        dataset$S2 <- factor(dataset$S2, levels = c('<32', '32_50', '50_70',  
-                                                    '70_90', '90_110', 
-                                                    '110_130', '130_150', '>150'))
-        return(dataset)
-}

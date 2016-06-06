@@ -34,7 +34,7 @@ fig2b <- ggplot(FGF.all %>%
                                Regime != 'R3L'),
                 ## Plot log(GATA6) against log(NANOG)
                 aes(x = CH4.ebLogCor, y = CH5.ebLogCor))
-fig2b <- fig2b + geom_point(aes(color = Identity.auto), size = I(0.75))
+fig2b <- fig2b + geom_point(aes(color = Identity.km), size = I(0.75))
 fig2b <- fig2b + geom_density2d(color = I('orangered4'), size = 0.25)
 ## Set up axes limits
 fig2b <- fig2b + xlim(0, 8) + ylim(0, 8)
@@ -62,7 +62,7 @@ fig2d <- ggplot(FGF.all %>%
                                Regime != 'R9', 
                                Regime != 'R3L'),
                 ## Plot each treatment regime against ICM composition
-                aes(x = Regime, fill = Identity.auto))
+                aes(x = Regime, fill = Identity.km))
 fig2d <- fig2d + geom_bar(position = 'fill')
 ## Set up plot aesthetics
 fig2d <- fig2d + scale_fill_manual(values = idcols)
@@ -89,7 +89,7 @@ figS2a <- ggplot(FGF.all %>%
                                 Regime != 'R3L'),
                  ## Plot log(GATA6) against log(NANOG)
                  aes(x = CH4.ebLogCor, y = CH5.ebLogCor))
-figS2a <- figS2a + geom_point(aes(color = Identity.auto), size = I(0.75))
+figS2a <- figS2a + geom_point(aes(color = Identity.km), size = I(0.75))
 figS2a <- figS2a + geom_density2d(color = I('orangered4'), size = 0.25)
 ## Set up axes limits
 figS2a <- figS2a + xlim(0, 8) + ylim(0, 8)
@@ -118,7 +118,7 @@ figS2c <- ggplot(FGF.all %>%
                                Regime != 'R9', 
                                Regime != 'R3L'),
                 ## Plot each treatment regime against ICM composition
-                aes(x = Regime, fill = Identity.auto))
+                aes(x = Regime, fill = Identity.km))
 figS2c <- figS2c + geom_bar(position = 'fill')
 ## Set up plot aesthetics
 figS2c <- figS2c + scale_fill_manual(values = idcols)
@@ -168,7 +168,7 @@ figS3b <- ggplot(FGF.ICMsum %>%
                                 Regime != 'R9', 
                                 Regime != 'R3L'),
                  aes(x = Regime, y = Count))
-figS3b <- figS3b + geom_boxplot(aes(fill = Identity.auto), color = I('black'), 
+figS3b <- figS3b + geom_boxplot(aes(fill = Identity.km), color = I('black'), 
                                 outlier.shape = 1)
 figS3b <- figS3b + scale_fill_manual(values = idcols)
 figS3b <- figS3b + theme_bw() + facet_grid( ~ Treatment)
@@ -186,7 +186,7 @@ figS3c <- ggplot(FGF.all %>%
                                 Regime != 'R8', 
                                 Regime != 'R9', 
                                 Regime != 'R3L'), 
-                 aes(x = Regime, fill = Identity.auto))
+                 aes(x = Regime, fill = Identity.km))
 figS3c <- figS3c + geom_bar(position = 'fill')
 figS3c <- figS3c + scale_fill_manual(values = idcols)
 figS3c <- figS3c + theme_bw() + facet_grid( ~ Treatment)
@@ -256,7 +256,7 @@ for (r in regimes){
                                              Xpoint == 'ep', 
                                              Regime == r, 
                                              TE_ICM != 'TE'), 
-                              fill = Identity.auto, geom = 'bar', 
+                              fill = Identity.km, geom = 'bar', 
                               position = 'fill', 
                               main = r, xlab = t) + 
                         scale_fill_manual(values = idcols) + 

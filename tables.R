@@ -82,8 +82,8 @@ FGF.ICMsum <- FGF.all %>%
                Exp_date != '20150820') %>%
         group_by(Embryo_ID, Experiment, Regime, 
                  Stage, Treatment, Tt_length, 
-                 Cellcount, Identity.auto, Xpoint, 
-                 Identity, Markers) %>%
+                 Cellcount, Identity.km, Xpoint, 
+                 Identity, Markers, Identity.lin) %>%
         summarise(Count = n(), 
                   CH1 = mean(CH1.ebLogCor, na.rm = TRUE),
                   CH4 = mean(CH4.ebLogCor, na.rm = TRUE), 

@@ -63,6 +63,36 @@ FGF.lm.ICMcells <- FGF.all %>%
 # Table for N numbers in Figure 1c
 FGF.lms <- merge(FGF.lm.embryos, FGF.lm.ICMcells)
 
+# Table for N numbers in Figure 2b & S2b
+FGF.F2.icm <- FGF.all %>% filter(Treatment == 'Control' | 
+                                         Treatment == 'FGF4_1000' | 
+                                         Treatment == 'PD03_1' | 
+                                         Treatment == 'AZD_1' | 
+                                         Treatment == 'SU_20',
+                               Xpoint != 'xp', 
+                               TE_ICM == 'ICM', 
+                               Markers == 'C2G6NG', 
+                               Regime != 'R8', 
+                               Regime != 'R9', 
+                               Regime != 'R3L') %>% 
+        group_by(Regime, Treatment) %>% summarise(ICMcells = n())
+FGF.F2.emb <- FGF.all %>% filter(Treatment == 'Control' | 
+                                         Treatment == 'FGF4_1000' | 
+                                         Treatment == 'PD03_1' | 
+                                         Treatment == 'AZD_1' | 
+                                         Treatment == 'SU_20',
+                                 Xpoint != 'xp', 
+                                 TE_ICM == 'ICM', 
+                                 Markers == 'C2G6NG', 
+                                 Regime != 'R8', 
+                                 Regime != 'R9', 
+                                 Regime != 'R3L') %>% 
+        group_by(Regime, Treatment, Embryo_ID) %>% 
+        summarise() %>% group_by(Regime, Treatment) %>%
+        summarise(N = n())
+FGF.F2.N <- merge(FGF.F2.icm, FGF.F2.emb)
+rm(FGF.F2.icm, FGF.F2.emb)
+
 # Count TE and ICM cells for each embryo
 # and calculate absolute count and % of total
 FGF.sum <- FGF.all %>% 
@@ -83,7 +113,7 @@ FGF.ICMsum <- FGF.all %>%
         group_by(Embryo_ID, Experiment, Regime, 
                  Stage, Treatment, Tt_length, 
                  Cellcount, Identity.km, Xpoint, 
-                 Identity, Markers, Identity.lin) %>%
+                 Markers) %>%
         summarise(Count = n(), 
                   CH1 = mean(CH1.ebLogCor, na.rm = TRUE),
                   CH4 = mean(CH4.ebLogCor, na.rm = TRUE), 

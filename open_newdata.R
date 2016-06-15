@@ -10,7 +10,7 @@ source('correct.fgf.R')
 source('identify.R')
 
 # Load in transformed data
-FGF.all <- readRDS('FGF_all_pooled.rds')
+FGF.all <- readRDS('FGF-id-by-clustering-final.rds')
 FGF.exp.ref <- read.csv('FGFonCD1_exp_ref.csv')
 FGF.all <- merge(FGF.all, FGF.exp.ref)
 
@@ -18,7 +18,7 @@ FGF.all <- merge(FGF.all, FGF.exp.ref)
 FGF.all <- id.linear(FGF.all)
 # Order factors
 FGF.all$Identity <- factor(FGF.all$Identity, 
-                           levels = c('TE', 'DN', 'EPI', 'DP', 'PRE'))
+                           levels = c('DN', 'EPI', 'DP', 'PRE', 'TE'))
 FGF.all$Identity.km <- factor(FGF.all$Identity.km, 
                                 levels = c('DN', 'EPI', 'DP', 'PRE', 'ICM', 'TE'))
 FGF.all$Regime <- factor(FGF.all$Regime, 
@@ -31,3 +31,5 @@ FGF.all$TE_ICM <- factor(FGF.all$TE_ICM, levels = c('ICM', 'TE'))
 FGF.all$Xpoint <- factor(FGF.all$Xpoint, levels = c('sp', 'xp', 'ep'))
 # Stage embryos
 FGF.all <- stage(FGF.all)
+
+

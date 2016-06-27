@@ -9,14 +9,14 @@ source('stage.R')
 source('correct.fgf.R')
 source('identify.R')
 
-# Load in transformed data
-FGF.all <- readRDS('FGF-id-by-clustering-final.rds')
+# Load in transformed data for treatments
+FGF.all <- read.csv('FGF_all_pooled_trans.csv')
 FGF.exp.ref <- read.csv('FGFonCD1_exp_ref.csv')
 FGF.all <- merge(FGF.all, FGF.exp.ref)
 
-# Assign identities automatically
+## Assign identities automatically
 FGF.all <- id.linear(FGF.all)
-# Order factors
+## Order factors
 FGF.all$Identity <- factor(FGF.all$Identity, 
                            levels = c('DN', 'EPI', 'DP', 'PRE', 'TE'))
 FGF.all$Identity.km <- factor(FGF.all$Identity.km, 
@@ -29,7 +29,21 @@ FGF.all$Treatment <- factor(FGF.all$Treatment,
                                        'AZD_1', 'SU_10', 'SU_20', 'FGF42PD'))
 FGF.all$TE_ICM <- factor(FGF.all$TE_ICM, levels = c('ICM', 'TE'))
 FGF.all$Xpoint <- factor(FGF.all$Xpoint, levels = c('sp', 'xp', 'ep'))
-# Stage embryos
+## Stage embryos
 FGF.all <- stage(FGF.all)
 
+# Load in transformed data for scaling experiments (Figures 4 & S6)
 
+scaling <- readRDS('scaling_all.rds')
+## Order factors as desired
+scaling$TE_ICM <- factor(scaling$TE_ICM, levels = c('ICM', 'TE'))
+scaling$Regime <- as.factor(scaling$Regime)
+scaling$Experiment <- as.factor(scaling$Experiment)
+scaling$Genotype <- as.factor(scaling$Genotype)
+scaling$Litter <- as.factor(scaling$Litter)
+scaling$Identity <- factor(scaling$Identity, 
+                           levels = c('DN', 'EPI', 'DP', 'PRE', 'TE'))
+scaling$Identity.km <- factor(scaling$Identity.km, 
+                              levels = c('DN', 'EPI', 'DP', 'PRE', 'ICM', 'TE'))
+scaling$Treatment <- factor(scaling$Treatment, levels = c('Control', 'Single', 
+                                                          'Half', 'Double'))

@@ -18,23 +18,27 @@ idcols <- c('EPI' = 'red', 'PRE' = 'blue', 'DP' = 'purple', 'DN' = 'gray',
             'TE' = 'green', 'ICM' = 'purple')
 
 # Figure 4a
-## This plot is also the first panel in Figure S4c
+## This plot is also the first panel in Figure 2d
 fig4a <- ggplot(FGF.all %>% 
-                        ## Select Control embryos cultured for 48h
-                        ## for each regime to be plotted
-                        filter(Xpoint != 'xp', 
-                               Treatment == 'Control', 
-                               Regime != 'NA', 
+                        ## Filter ICM cells of Control, end point embryos 
+                        ## stained with CDX2, GATA6 and NANOG
+                        ## for Regimes 1, 5, 3, 4 and 6;
+                        filter(Treatment == 'Control', 
+                               Xpoint != 'xp', 
+                               TE_ICM != 'TE', 
+                               Markers == 'C2G6NG', 
                                Regime != 'R8', 
                                Regime != 'R9', 
-                               Regime != 'R3L'), 
+                               Regime != 'R3L'),
+                ## Plot each treatment regime against average ICM composition
                 aes(x = Regime, fill = Identity.km))
-## Set up plot aesthetics
 fig4a <- fig4a + geom_bar(position = 'fill')
+## Set up plot aesthetics
 fig4a <- fig4a + scale_fill_manual(values = idcols)
-fig4a <- fig4a + theme_bw() + facet_grid( ~ Treatment)
-fig4a <- fig4a + coord_fixed(6)
-fig4a <- fig4a + labs(x = 'Regime', y = '% of total', fill = 'Identity')
+fig4a <- fig4a + theme_bw() + coord_fixed(6)
+fig4a <- fig4a + labs(fill = 'Identity', x = 'Treatment regime', y = '% of ICM')
+## Group by treatment condition
+fig4a <- fig4a + facet_grid( ~ Treatment)
 ## Print plot to the screen
 print(fig4a)
 
@@ -62,27 +66,23 @@ fig4b <- fig4b + labs(fill = 'Identity', x = 'Regime', y = 'Cell number')
 print(fig4b)
 
 # Figure 4c
-## This plot is also the first panel in Figure 2d
+## This plot is also the first panel in Figure S4c
 fig4c <- ggplot(FGF.all %>% 
-                        ## Filter ICM cells of Control, end point embryos 
-                        ## stained with CDX2, GATA6 and NANOG
-                        ## for Regimes 1, 5, 3, 4 and 6;
-                        filter(Treatment == 'Control', 
-                               Xpoint != 'xp', 
-                               TE_ICM != 'TE', 
-                               Markers == 'C2G6NG', 
+                        ## Select Control embryos cultured for 48h
+                        ## for each regime to be plotted
+                        filter(Xpoint != 'xp', 
+                               Treatment == 'Control', 
+                               Regime != 'NA', 
                                Regime != 'R8', 
                                Regime != 'R9', 
-                               Regime != 'R3L'),
-                ## Plot each treatment regime against average ICM composition
+                               Regime != 'R3L'), 
                 aes(x = Regime, fill = Identity.km))
-fig4c <- fig4c + geom_bar(position = 'fill')
 ## Set up plot aesthetics
+fig4c <- fig4c + geom_bar(position = 'fill')
 fig4c <- fig4c + scale_fill_manual(values = idcols)
-fig4c <- fig4c + theme_bw() + coord_fixed(6)
-fig4c <- fig4c + labs(fill = 'Identity', x = 'Treatment regime', y = '% of ICM')
-## Group by treatment condition
-fig4c <- fig4c + facet_grid( ~ Treatment)
+fig4c <- fig4c + theme_bw() + facet_grid( ~ Treatment)
+fig4c <- fig4c + coord_fixed(6)
+fig4c <- fig4c + labs(x = 'Regime', y = '% of total', fill = 'Identity')
 ## Print plot to the screen
 print(fig4c)
 

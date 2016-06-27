@@ -279,30 +279,51 @@ print(figs1d)
 ## after Empirical Bayes correction
 ## for ICM cells only, for each experiment, ordered by ascending imaging date
 ## Figure S2a
-figS2a <- ggplot(subset(FGF.all, TE_ICM == 'ICM' & Markers == 'C2G6NG'), 
-               aes(x = reorder(Experiment, Exp_date), y = CH1.ebLogCor))
+figS2a <- ggplot(FGF.all %>% 
+                         ## Select ICM cells only
+                         ## for embryos stained for CDX2, GATA6 and NANOG
+                         filter(TE_ICM == 'ICM',
+                                Markers == 'C2G6NG'), 
+                 ## Arrange experiments by date and plot against Hoechst (CH1)
+                 aes(x = reorder(Experiment, Exp_date), y = CH1.ebLogCor))
+## Color grey (Hoechst)
 figS2a <- figS2a + geom_boxplot(fill = I('grey'), color = I('black'), 
-                            outlier.shape = 1)
+                                outlier.shape = 1)
+## Optional: plot all cells as individual points over the box and whiskers
 #figS2a <- figS2a + geom_jitter(alpha = I(0.25), size = I(0.5)) + theme_bw() 
 figS2a <- figS2a + theme(axis.text.x = element_text(angle = 45, hjust = 1))
 figS2a <- figS2a + labs(x = 'Experiment, by date', y = 'log[Hoechst]')
 print(figS2a)
 
 ## Figure S2b
-figS2b <- ggplot(subset(FGF.all, TE_ICM == 'ICM' & Markers == 'C2G6NG'), 
-                aes(x = reorder(Experiment, Exp_date), y = CH4.ebLogCor))
+figS2b <- ggplot(FGF.all %>% 
+                         ## Select ICM cells only
+                         ## for embryos stained for CDX2, GATA6 and NANOG
+                         filter(TE_ICM == 'ICM',
+                                Markers == 'C2G6NG'), 
+                 ## Arrange experiments by date and plot against GATA6 (CH4)
+                 aes(x = reorder(Experiment, Exp_date), y = CH4.ebLogCor))
+## Color blue (GATA6)
 figS2b <- figS2b + geom_boxplot(fill = I('blue'), color = I('black'), 
                               outlier.shape = 1)
+## Optional: plot all cells as individual points over the box and whiskers
 #figS2b <- figS2b + geom_jitter(alpha = I(0.25), size = I(0.5)) + theme_bw()
 figS2b <- figS2b + theme(axis.text.x = element_text(angle = 45, hjust = 1))
 figS2b <- figS2b + labs(x = 'Experiment, by date', y = 'log[GATA6]')
 print(figS2b)
 
 ## Figure S2c
-figS2c <- ggplot(subset(FGF.all, TE_ICM == 'ICM' & Markers == 'C2G6NG'), 
+figS2c <- ggplot(FGF.all %>% 
+                         ## Select ICM cells only
+                         ## for embryos stained for CDX2, GATA6 and NANOG
+                         filter(TE_ICM == 'ICM',
+                                Markers == 'C2G6NG'), 
+                 ## Arrange experiments by date and plot against NANOG (CH5)
                 aes(x = reorder(Experiment, Exp_date), y = CH5.ebLogCor))
+## Color red (NANOG)
 figS2c <- figS2c + geom_boxplot(fill = I('red'), color = I('black'), 
                               outlier.shape = 1)
+## Optional: plot all cells as individual points over the box and whiskers
 #figS2c <- figS2c + geom_jitter(alpha = I(0.25), size = I(0.5)) + theme_bw()
 figS2c <- figS2c + theme(axis.text.x = element_text(angle = 45, hjust = 1))
 figS2c <- figS2c + labs(x = 'Experiment, by date', y = 'log[NANOG]')

@@ -88,6 +88,31 @@ print(fig5f)
 
 # ------------------------------------------------------------------------------
 
+# Figure S7b
+## Scatter plots showing the levels of GATA6 and NANOG in log scale
+## in individual ICM cells of embryos collected at the 8-cell stage and 
+## treated with either FGF4 or PD03 for 24h
+## Each dot represents a single ICM cell, color coded for identity
+figS7b <- ggplot(FGF.all %>% 
+                         ## Select ICM cells from embryos 
+                         ## cultured for 24h (exchange point, 'xp')
+                         filter(TE_ICM != 'TE', 
+                                Treatment != 'FGF42PD', 
+                                Regime == 'R8', 
+                                Xpoint == 'xp'),
+                 aes(x = CH4.ebLogCor, y = CH5.ebLogCor))
+## Set up plot aesthetics
+figS7b <- figS7b + geom_point(aes(color = Identity.km), size = I(1.5))
+figS7b <- figS7b + geom_density2d(color = I('orangered4'), size = 0.5)
+figS7b <- figS7b + xlim(-3, 8) + ylim(-3, 8)
+figS7b <- figS7b + scale_color_manual(values = idcols)
+figS7b <- figS7b + theme_bw() + coord_fixed()
+figS7b <- figS7b + labs(color = 'Identity', x = 'log[GATA6]', y = 'log[NANOG]')
+## Group by treatment condition
+figS7b <- figS7b + facet_grid( ~ Treatment)
+## Print plot to the screen
+print(figS7b)
+
 # Figure S7c
 ## Boxplots showing the total number of cells per embryo
 ## for embryos in figures 5 and S7 for each treatment condition indicated
@@ -119,31 +144,6 @@ figS7c <- figS7c + coord_fixed(0.03) + theme_bw()
 figS7c <- figS7c + facet_grid(Regime ~ Xpoint)
 ## Print plot to screen
 print(figS7c)
-
-# Figure S7b
-## Scatter plots showing the levels of GATA6 and NANOG in log scale
-## in individual ICM cells of embryos collected at the 8-cell stage and 
-## treated with either FGF4 or PD03 for 24h
-## Each dot represents a single ICM cell, color coded for identity
-figS7b <- ggplot(FGF.all %>% 
-                         ## Select ICM cells from embryos 
-                         ## cultured for 24h (exchange point, 'xp')
-                         filter(TE_ICM != 'TE', 
-                                Treatment != 'FGF42PD', 
-                                Regime == 'R8', 
-                                Xpoint == 'xp'),
-                 aes(x = CH4.ebLogCor, y = CH5.ebLogCor))
-## Set up plot aesthetics
-figS7b <- figS7b + geom_point(aes(color = Identity.km), size = I(1.5))
-figS7b <- figS7b + geom_density2d(color = I('orangered4'), size = 0.5)
-figS7b <- figS7b + xlim(-3, 8) + ylim(-3, 8)
-figS7b <- figS7b + scale_color_manual(values = idcols)
-figS7b <- figS7b + theme_bw() + coord_fixed()
-figS7b <- figS7b + labs(color = 'Identity', x = 'log[GATA6]', y = 'log[NANOG]')
-## Group by treatment condition
-figS7b <- figS7b + facet_grid( ~ Treatment)
-## Print plot to the screen
-print(figS7b)
 
 # Figure S7d
 ## Bar plot representing the average lineage composition 

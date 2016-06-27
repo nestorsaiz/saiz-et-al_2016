@@ -73,12 +73,10 @@ All segmentation data is amalgamated under a single data frame in .csv format (F
 ## Usage
 
 To create the plots from the article:
+
 1. Download all files to a local directory - respect the file names.
- 
 2. Using RStudio, create a new project in that directory and open the Rproject file.
-
 3. Open *open_newdata.R* and *tables.R* and source them or load them from the console using source(*filename*.R). This will load the data files and generate the tables.
-
 4. Open the figure files and source them or load them from the console using source(*filename*.R).
 
 To explore the data and re-analyze, use your favorite software and the data structure above as reference.

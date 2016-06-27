@@ -1,13 +1,30 @@
 # Saiz *et al* (2016) *Nature Communications*
 
-This is the README file for the saiz-et-al_2016 repository associated to the article by Saiz *et al* (2016) *Nature Communications*, LINK, DOI.
+This is the README file for the saiz-et-al_2016 repository associated to the article by Saiz *et al* (2016) *Asynchronous fate decisions at the single cell level collectively ensure a consistent lineage composition in the mouse blastocyst* **Nature Communications**, LINK, DOI.
 
 This repository contains the data extracted from all embryo images in the study, the R scripts used to clean, transform and analyze the data and the code to generate all plots in the article.
 All original microscopy images and raw image segmentation files can be found in FIGSHARE LINK.
 
+## Files included
+
+Data tables:
+- **FGF_all_pooled_trans.csv**: all segmentation data, COMPLETE
+- **scaling_all.rds**: all data for scaling experiments shown in Figs 4 and S6, corrected and transformed.
+- **Experimental_log.csv**: summary of the complete dataset (FGF_all_pooled_trans.csv) listing each experimental group, the number of embryos present and the average cell count for that group.
+- **Regimes.csv**: summary of the treatment regimes used and the corresponding stage at collection, fixation and treatment length (corresponds to Supplementary Table 1 in the article).
+- **FGFonCD1_exp_ref.csv**: experimental reference containing the metadata - including experimental date, imaging date, experimenter and regime.
+
+Scripts:
+- **open_newdata.R**: R script to load and tidy the corrected data.
+- **tables.R**: R script to generate summary tables containing information shown in the article figures as well as summary tables used to create plots.
+- **stage.R**: R script to assign stage to embryos based on their cell count.
+- **identify.R**: R script to assign identity to cells using the thresholding approach.
+- **explore.R**: R script to do data exploration. Plots fluorescence intensity levels for the requested channel over Z, for each lineage.
+- **figures_*n*-*m*.R**: R scripts to generate all plots present in the corresponding figures in the published article.
+
 ## Data structure
 
-All segmentation data is amalgamated under a single data frame in .csv format. The file is made up of the following variables:
+All segmentation data is amalgamated under a single data frame in .csv format (FGF_all_pooled_trans.csv). The file is made up of the following variables:
 - **Experiment**: a unique identifier for each experiment, with the following structure: date (in MMDDYY format) + Regime (in R*n* format) + identifier (if necessary - such as for two experiments with the same date and regime). Each **experiment** corresponds to a single litter of embryos.
 - **Embryo_ID**: a unique identifier for each embryo, with the following structure: Experiment_ID (as above) + Embryo identifier (Experimental group initial + embryo number). Initials for experimental groups are as follow:
 	* C: Control
@@ -52,3 +69,13 @@ All segmentation data is amalgamated under a single data frame in .csv format. T
 - **Exp_date**: date the experiment was started (embryo collection).
 - **Img_date**: date the embryos were imaged.
 - **Identity.lin**: identity assigned automatically using a thresholding method for the data on linear scale (after inverting the logarithm).
+
+## Usage
+
+To create the plots from the article:
+1. Download all files to a local directory - respect the file names. 
+2. Using RStudio, create a new project in that directory and open the Rproject file.
+3. Open *open_newdata.R* and *tables.R* and source them or load them from the console using source(*filename*.R). This will load the data files and generate the tables.
+4. Open the figure files and source them or load them from the console using source(*filename*.R).
+
+To explore the data and re-analyze, use your favorite software and the data structure above as reference.

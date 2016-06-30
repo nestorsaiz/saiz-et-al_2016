@@ -10,55 +10,30 @@ source('correct.fgf.R')
 source('identify.R')
 
 # Load FGF_all_pooled csv file
-FGF.all <- read.csv('FGF_all_pooled.csv', header = TRUE, sep = ',')
+FGF.all <- read.csv('FGF_all_pooled_raw.csv', header = TRUE)
+# Load experimental reference file (metadata)
+exp_ref <- read.csv('FGFonCD1_exp_ref.csv', header = TRUE)
+# Combine the two
+FGF.all <- merge(FGF.all, exp_ref)
 
-# Add TE vs ICM column
+# Add TE vs ICM column based on manual identity assignment
 FGF.all$TE_ICM <- ifelse(FGF.all$Identity == 'TE', 'TE', 'ICM')
-
-# Add experimental point:
-# start (sp): reference littermates ('Littermate') 
-# exchange (xp): media exchange point of reference
-# for regimes 8 and 9; 24h timepoint for regime 1
-# end (ep): end of experiment (120-150 cells)
-FGF.all$Xpoint <- ifelse(FGF.all$Regime == 'R1' & 
-                           FGF.all$Tt_length == '24h' | 
-                           FGF.all$Regime == 'R8' & 
-                           FGF.all$Tt_length == '24h' | 
-                           FGF.all$Regime == 'R9' & 
-                           FGF.all$Tt_length == '30h', 
-                         'xp', 
-                         ifelse(FGF.all$Treatment == 'Littermate', 
-                                'sp', 
-                                'ep'))
-FGF.all$Xpoint <- factor(FGF.all$Xpoint, levels = c('sp', 'xp', 'ep'))
 
 # Stage embryos
 FGF.all <- stage(FGF.all)
 
-# Add temporary marker variable
-FGF.all$Markers <- ifelse(FGF.all$Experiment == '060915_R3' & 
-                            FGF.all$Treatment != 'Littermate' | 
-                            FGF.all$Experiment == '060915_R4' & 
-                            FGF.all$Treatment != 'Littermate', 'O4G4NG', 'C2G6NG')
-FGF.all$Markers <- as.factor(FGF.all$Markers)
-
-# Z-correction
-FGF.all <- correct.fgf(FGF.all)
-
-# Identity assignment
-#FGF.all <- identify(FGF.all)
-
 # Order the variables as desired
 FGF.all$Regime <- factor(FGF.all$Regime, 
-                         levels = c('R1', 'R5', 'R3', 'R3L', 'R4', 'R6', 'R8', 'R9'))
+                         levels = c('R1', 'R5', 'R3', 'R3L', 
+                                    'R4', 'R6', 'R8', 'R9'))
 FGF.all$Treatment <- factor(FGF.all$Treatment, 
                             levels = c('Littermate', 'Control', 
                                        'FGF4_1000', 'PD03_1', 
                                        'AZD_1', 'SU_10', 'SU_20', 'FGF42PD'))
 FGF.all$Identity <- factor(FGF.all$Identity, 
                            levels = c('TE', 'DN', 'EPI', 'DP', 'PRE'))
-#FGF.all$Identity.auto <- factor(FGF.all$Identity.auto, levels = c('TE', 'DN', 'EPI', 'DP', 'PRE'))
 FGF.all$TE_ICM <- factor(FGF.all$TE_ICM, levels = c('ICM', 'TE'))
+FGF.all$Xpoint <- factor(FGF.all$Xpoint, levels = c('sp', 'xp', 'ep'))
 
 # Check structure
 str(FGF.all)

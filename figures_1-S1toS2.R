@@ -5,7 +5,7 @@
 data.ok <- exists('FGF.all') 
 tables.ok <- exists('FGF.sum')
 if (data.ok == FALSE) {
-        source('open_newdata.R')
+        source('Transformations.R')
 }
 rm(data.ok)
 if (tables.ok == FALSE) {

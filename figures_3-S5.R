@@ -75,7 +75,6 @@ figS5a <- ggplot(FGF.ICMsum %>%
                                 Markers == 'C2G6NG', 
                                 Regime != 'R8', 
                                 Regime != 'R9', 
-                                Regime != 'R3L', 
                                 Identity.km == 'EPI' | 
                                         Identity.km == 'PRE'), 
                  aes(x = Regime, y = CH5))

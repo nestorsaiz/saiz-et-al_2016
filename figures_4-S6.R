@@ -5,7 +5,7 @@
 data.ok <- exists('FGF.all') 
 tables.ok <- exists('FGF.sum')
 if (data.ok == FALSE) {
-        source('open_newdata.R')
+        source('Transformations.R')
 }
 rm(data.ok)
 if (tables.ok == FALSE) {
@@ -28,8 +28,7 @@ fig4a <- ggplot(FGF.all %>%
                                TE_ICM != 'TE', 
                                Markers == 'C2G6NG', 
                                Regime != 'R8', 
-                               Regime != 'R9', 
-                               Regime != 'R3L'),
+                               Regime != 'R9'),
                 ## Plot each treatment regime against average ICM composition
                 aes(x = Regime, fill = Identity.km))
 fig4a <- fig4a + geom_bar(position = 'fill')
@@ -51,8 +50,7 @@ fig4b <- ggplot(FGF.sum %>%
                                Xpoint != 'xp', 
                                Regime != 'NA', 
                                Regime != 'R8', 
-                               Regime != 'R9', 
-                               Regime != 'R3L'), 
+                               Regime != 'R9'), 
                 aes(x = Regime, y = Count))
 ## Set up plot aesthetics
 fig4b <- fig4b + geom_boxplot(aes(fill = TE_ICM), color = I('black'), 
@@ -74,8 +72,7 @@ fig4c <- ggplot(FGF.all %>%
                                Treatment == 'Control', 
                                Regime != 'NA', 
                                Regime != 'R8', 
-                               Regime != 'R9', 
-                               Regime != 'R3L'), 
+                               Regime != 'R9'), 
                 aes(x = Regime, fill = Identity.km))
 ## Set up plot aesthetics
 fig4c <- fig4c + geom_bar(position = 'fill')
@@ -90,7 +87,7 @@ print(fig4c)
 ## and if not, run the script to load it
 scaling.ok <- exists('scaling')
 if (scaling.ok == FALSE) {
-        source('scaling_newdata.R')
+        source('Transformations.R')
 }
 
 # Figure 4f

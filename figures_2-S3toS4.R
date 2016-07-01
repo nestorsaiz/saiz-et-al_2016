@@ -35,8 +35,7 @@ fig2b <- ggplot(FGF.all %>%
                                TE_ICM != 'TE', 
                                Markers == 'C2G6NG', 
                                Regime != 'R8', 
-                               Regime != 'R9', 
-                               Regime != 'R3L'),
+                               Regime != 'R9'),
                 ## Plot log(GATA6) against log(NANOG)
                 aes(x = CH4.ebLogCor, y = CH5.ebLogCor))
 fig2b <- fig2b + geom_point(aes(color = Identity.km), size = I(0.75))
@@ -69,8 +68,7 @@ fig2d <- ggplot(FGF.all %>%
                                TE_ICM != 'TE', 
                                Markers == 'C2G6NG', 
                                Regime != 'R8', 
-                               Regime != 'R9', 
-                               Regime != 'R3L'),
+                               Regime != 'R9'),
                 ## Plot each treatment regime against average ICM composition
                 aes(x = Regime, fill = Identity.km))
 fig2d <- fig2d + geom_bar(position = 'fill')
@@ -165,8 +163,7 @@ figS3d <- ggplot(FGF.all %>%
                                 TE_ICM != 'TE', 
                                 Markers == 'C2G6NG', 
                                 Regime != 'R8', 
-                                Regime != 'R9', 
-                                Regime != 'R3L'),
+                                Regime != 'R9'),
                  ## Plot each treatment regime against average ICM composition
                  aes(x = Embryo_ID, fill = Identity.km))
 figS3d <- figS3d + geom_bar(position = 'fill')
@@ -201,8 +198,7 @@ figS4a <- ggplot(FGF.all %>%
                                 Treatment != 'SU_10', 
                                 Regime != 'NA', 
                                 Regime != 'R8', 
-                                Regime != 'R9', 
-                                Regime != 'R3L'),
+                                Regime != 'R9'),
                  aes(x = Treatment, y = Cellcount))
 ## Set up plot aesthetics
 figS4a <- figS4a + geom_boxplot(fill = 'gray', color = 'black', 
@@ -228,8 +224,7 @@ figS4b <- ggplot(FGF.ICMsum %>%
                                 Markers == 'C2G6NG', 
                                 Regime != 'NA', 
                                 Regime != 'R8', 
-                                Regime != 'R9', 
-                                Regime != 'R3L'),
+                                Regime != 'R9'),
                  aes(x = Regime, y = Count))
 ## Color code for identity
 figS4b <- figS4b + geom_boxplot(aes(fill = Identity.km), color = I('black'), 
@@ -253,8 +248,7 @@ figS4c <- ggplot(FGF.all %>%
                                 Treatment != 'SU_10', 
                                 Regime != 'NA', 
                                 Regime != 'R8', 
-                                Regime != 'R9', 
-                                Regime != 'R3L'), 
+                                Regime != 'R9'), 
                  aes(x = Regime, fill = Identity.km))
 figS4c <- figS4c + geom_bar(position = 'fill')
 ## Set up plot aesthetics
@@ -276,8 +270,7 @@ figS4d <- ggplot(FGF.sum %>%
                                 Xpoint != 'xp', 
                                 Regime != 'NA', 
                                 Regime != 'R8', 
-                                Regime != 'R9', 
-                                Regime != 'R3L'), 
+                                Regime != 'R9'), 
                  aes(x = Regime, y = Count))
 ## Set up plot aesthetics
 figS4d <- figS4d + geom_boxplot(aes(fill = TE_ICM), color = I('black'), 

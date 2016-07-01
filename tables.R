@@ -3,7 +3,7 @@
 ## Load data and apply transformations if not loaded yet
 data.ok <- exists('FGF.all') 
 if (data.ok == FALSE) {
-        source('open_newdata.R')
+        source('Transformations.R')
 }
 rm(data.ok)
 
@@ -64,8 +64,7 @@ FGF.F2.icm <- FGF.all %>%
                TE_ICM == 'ICM', 
                Markers == 'C2G6NG', 
                Regime != 'R8', 
-               Regime != 'R9', 
-               Regime != 'R3L') %>% 
+               Regime != 'R9') %>% 
         group_by(Regime, Treatment) %>% summarise(ICMcells = n())
 FGF.F2.emb <- FGF.all %>% 
         ## Select treatments, treatment length and regimes as appropriate
@@ -79,8 +78,7 @@ FGF.F2.emb <- FGF.all %>%
                TE_ICM == 'ICM', 
                Markers == 'C2G6NG', 
                Regime != 'R8', 
-               Regime != 'R9', 
-               Regime != 'R3L') %>% 
+               Regime != 'R9') %>% 
         group_by(Regime, Treatment, Embryo_ID) %>% 
         summarise() %>% group_by(Regime, Treatment) %>%
         summarise(N = n())

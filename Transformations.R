@@ -43,6 +43,10 @@ scaling$TE_ICM <- ifelse(scaling$Identity == 'TE', 'TE', 'ICM')
 ## Stage embryos
 FGF.all <- stage(FGF.all)
 
+## Apply correction for Z axis-associated fluorescence decay
+## (will only be used for embryos stained with OCT4, GATA4 and NANOG: Markers = "O4G4NG")
+FGF.all <- correct.fgf(FGF.all)
+
 ## Apply Empirical Bayes correction
 source('empirical_bayes.R')
 

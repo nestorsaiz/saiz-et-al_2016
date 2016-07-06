@@ -87,14 +87,12 @@ dkm <- matrix(0, sum(ii), 4)
 for(i in 1:4) dkm[,i] <- (xx0$CH4.ebLogCor[ii] - centers[i,1])^2 + 
         (xx0$CH5.ebLogCor[ii] - centers[i,2])^2
 
-#########################################################################
-## HOW IS THIS ASSIGNING IDENTITIES AND WOULD IT OVERWIRTE THE OTHERS? ##
-#########################################################################
 idkm <- apply(dkm, 1, which.min)
 xx0$Identity.km[ii] <- c("DP", "EPI", "PRE", "DN")[idkm]
 
 ## Integrate the CDX2, GATA6, NANOG subset (xx0) with rest of data
-FGF.all <- rbind.fill(xx0, subset(FGF.all, Markers != 'C2G6NG'))
+FGF.all <- rbind.fill(xx0, subset(FGF.all, Markers != 'C2G6NG' | 
+                                          Exp_date == '20150820'))
 
 # ------------------------------------------------------------------------------
 
@@ -111,13 +109,17 @@ FGF.all <- rbind.fill(xx0, subset(FGF.all, Markers != 'C2G6NG'))
 uidates <- unique(scaling$Img_date)
 
 ## Calculate median of controls for channels 4 & 5 (GATA6 and NANOG) in ICM cells
-ii <- scaling$TE_ICM=="ICM"
-cmed4 <- quantile(scaling$CH4.ebLogCor[ii & scaling$Treatment=="Control"], 3/4)
-cmed5 <- quantile(scaling$CH5.ebLogCor[ii & scaling$Treatment=="Control"], 3/4)
+ii <- scaling$TE_ICM == "ICM"
+cmed4 <- quantile(scaling$CH4.ebLogCor[ii & scaling$Treatment == "Control"], 3/4)
+cmed5 <- quantile(scaling$CH5.ebLogCor[ii & scaling$Treatment == "Control"], 3/4)
 
 for(i in uidates) {
-        scaling$CH4.ebLogCor[scaling$Img_date == i] <- scaling$CH4.ebLogCor[scaling$Img_date == i] + cmed4 - quantile(scaling$CH4.ebLogCor[ii & scaling$Img_date == i],3/4)
-        scaling$CH5.ebLogCor[scaling$Img_date == i] <- scaling$CH5.ebLogCor[scaling$Img_date == i] + cmed5 - quantile(scaling$CH5.ebLogCor[ii & scaling$Img_date == i],3/4)
+        scaling$CH4.ebLogCor[scaling$Img_date == i] <- 
+                scaling$CH4.ebLogCor[scaling$Img_date == i] + 
+                cmed4 - quantile(scaling$CH4.ebLogCor[ii & scaling$Img_date == i],3/4)
+        scaling$CH5.ebLogCor[scaling$Img_date == i] <- 
+                scaling$CH5.ebLogCor[scaling$Img_date == i] + 
+                cmed5 - quantile(scaling$CH5.ebLogCor[ii & scaling$Img_date == i],3/4)
 }
 
 # Set two centers

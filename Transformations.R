@@ -47,8 +47,10 @@ FGF.all <- stage(FGF.all)
 ## (will only be used for embryos stained with OCT4, GATA4 and NANOG: Markers = "O4G4NG")
 FGF.all <- correct.fgf(FGF.all)
 
-## Apply Empirical Bayes correction
+## Apply Empirical Bayes correction to each dataset
 source('empirical_bayes.R')
+FGF.all <- eb.cor(FGF.all)
+scaling <- eb.cor(scaling)
 
 ## Assign cell identity within the ICM automatically
 source('identities.R')

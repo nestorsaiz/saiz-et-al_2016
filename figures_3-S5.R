@@ -1,6 +1,5 @@
 # Saiz *et al* (2016)
 # Figures 3 and S5 plots
-install.packages('lattice')
 library(lattice)
 
 # Load data and apply transformations if not loaded yet
@@ -50,7 +49,7 @@ fig3c <- ggplot(FGF.ICMsumO4 %>%
                 ## Plot identity (EPI or PrE) against OCT4 (Channel 2)
                 aes(x = Identity, y = CH2))
 ## Set up plot aesthetics
-fig3c <- fig3c + geom_box(aes(fill = Identity), color = I('black'))
+fig3c <- fig3c + geom_boxplot(aes(fill = Identity), color = I('black'))
 fig3c <- fig3c + geom_jitter(color = I('black'), size = I(1.2))
 fig3c <- fig3c + scale_fill_manual(values = idcols)
 fig3c <- fig3c + facet_grid( ~ Treatment)

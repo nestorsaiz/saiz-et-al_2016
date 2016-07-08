@@ -66,7 +66,7 @@ FGF.all$Treatment <- factor(FGF.all$Treatment,
 scaling$Treatment <- factor(scaling$Treatment, levels = c('Control', 'Single', 
                                                           'Half', 'Double'))
 FGF.all$Identity <- factor(FGF.all$Identity, 
-                           levels = c('DN', 'EPI', 'DP', 'PRE', 'TE'))
+                           levels = c('TE', 'DN', 'EPI', 'DP', 'PRE'))
 scaling$Identity <- factor(scaling$Identity, 
                            levels = c('DN', 'EPI', 'DP', 'PRE', 'TE'))
 FGF.all$Identity.km <- factor(FGF.all$Identity.km, 

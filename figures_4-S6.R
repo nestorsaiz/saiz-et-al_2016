@@ -70,6 +70,7 @@ fig4c <- ggplot(FGF.all %>%
                         ## for each regime to be plotted
                         filter(Xpoint != 'xp', 
                                Treatment == 'Control', 
+                               Markers == 'C2G6NG', 
                                Regime != 'NA', 
                                Regime != 'R8', 
                                Regime != 'R9'), 

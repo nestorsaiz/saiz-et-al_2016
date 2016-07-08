@@ -7,7 +7,6 @@ if (data.ok == FALSE) {
 }
 rm(data.ok)
 
-
 ## Count all embryos analyzed, 
 ## group by Regime and treatment 
 ## (and experimental point)
@@ -165,6 +164,14 @@ FGF.ICMsum <- FGF.all %>%
                   CH1 = mean(CH1.ebLogCor, na.rm = TRUE),
                   CH4 = mean(CH4.ebLogCor, na.rm = TRUE), 
                   CH5 = mean(CH5.ebLogCor, na.rm = TRUE))
+## Extract the number of ICM cells per embryo from FGF.sum
+ICMcounts <- FGF.sum %>% filter(TE_ICM == 'ICM') %>%
+        group_by(Embryo_ID, Count) %>%
+        summarize()
+ICMcounts <- rename(ICMcounts, ICM.count = Count)
+## Add ICM cell number (ICM.count) to FGF.ICMsum
+FGF.ICMsum <- merge(FGF.ICMsum, ICMcounts)
+rm(ICMcounts)
 
 ## Build equivalent table to FGF.ICMsum, 
 ## only for embryos stained with OCT4, GATA4 and NANOG
@@ -182,7 +189,7 @@ FGF.ICMsumO4 <- FGF.all %>%
                   CH4 = mean(CH4.ebLogCor, na.rm = TRUE), 
                   CH5 = mean(CH5.ebLogCor, na.rm = TRUE))
 
-## Tables for scaling experiments (Figures 4 & S6)
+## Tables for scaling experiments (Figures 4 & S6a)
 scal.counts <- scaling %>% 
         group_by(Embryo_ID, Treatment, Cellcount, Regime) %>% 
         summarise()
@@ -190,3 +197,20 @@ scal.teicm <- scaling %>%
         group_by(Embryo_ID, Treatment, Cellcount, TE_ICM, Regime) %>% 
         summarise(Count = n()) %>% 
         mutate(pcTotal = Count / Cellcount * 100)
+
+## Count cells in each ICM lineage for scaling experiments (Figures 4 and S6c)
+## Equivalent to FGF.ICMsum
+scal.ICMsum <- scaling %>% 
+        group_by(Embryo_ID, Experiment, Regime, 
+                 Treatment, Tt_length, 
+                 Cellcount, Identity.km, Xpoint, 
+                 Markers) %>% 
+        summarise(Count = n())
+## Extract the number of ICM cells per embryo from scal.teicm
+ICMcounts <- scal.teicm %>% filter(TE_ICM == 'ICM') %>%
+        group_by(Embryo_ID, Count) %>% 
+        summarize()
+ICMcounts <- rename(ICMcounts, ICM.count = Count)
+## Add ICM cell number (ICM.count) to scal.ICMsum
+scal.ICMsum <- merge(scal.ICMsum, ICMcounts)
+rm(ICMcounts)

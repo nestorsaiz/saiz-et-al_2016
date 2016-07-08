@@ -1,13 +1,8 @@
 ## Load necessary packages
-install.packages('reshape2')
 library(reshape2)
-install.packages('ggplot2')
 library(ggplot2)
-install.packages('plyr')
 library(plyr)
-install.packages('dplyr')
 library(dplyr)
-install.packages('locfit')
 library(locfit)
 
 ## Run the following custom functions

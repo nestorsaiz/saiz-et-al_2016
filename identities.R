@@ -44,12 +44,12 @@ set.seed(20160606)
 oo <- kmeans(xx2[,1:2], 3)
 #> oo$centers
 #  CH4.ebLogCor CH5.ebLogCor
-#1     4.814777     5.641253
-#2     2.323815     5.475436
-#3     5.036621     2.107499
+#1     4.809746     5.693890
+#2     5.075773     2.096386
+#3     2.302035     5.415014
 
 ## Assign identity to all cells based on the centers obtained
-centers <- rbind(oo$centers, c(2.323815, 2.107499))
+centers <- rbind(oo$centers, c(2.302035, 2.096386))
 ii <- xx0$Identity != "TE"
 
 dkm <- matrix(0, sum(ii), 4)
@@ -60,7 +60,7 @@ idkm <- apply(dkm, 1, which.min)
 
 xx0$Identity.km <- rep(NA, nrow(xx0))
 xx0$Identity.km[!ii] <- "TE"
-xx0$Identity.km[ii] <- c("DP", "EPI", "PRE", "DN")[idkm]
+xx0$Identity.km[ii] <- c("DP", "PRE", "EPI", "DN")[idkm]
 
 
 ## Littermates (Figure 1) and embryos cultured for 48h (Figures 2, 5)
@@ -76,11 +76,11 @@ set.seed(20160609)
 oo <- kmeans(xx2[,1:2], 3)
 #> oo$centers
 #  CH4.ebLogCor CH5.ebLogCor
-#1     4.723790     5.879218
-#2     5.744554     3.366931
-#3     3.729928     3.444970
+#1     3.716422     3.455725
+#2     4.719526     5.860470
+#3     5.718721     3.355891
 
-centers <- rbind(c(5.744554, 5.879218), oo$centers)
+centers <- rbind(c(5.718721, 5.860470), oo$centers)
 ii <- xx0$Identity != "TE" & xx0$Treatment != "Littermate" & xx0$Xpoint != "xp"
 
 dkm <- matrix(0, sum(ii), 4)
@@ -88,7 +88,7 @@ for(i in 1:4) dkm[,i] <- (xx0$CH4.ebLogCor[ii] - centers[i,1])^2 +
         (xx0$CH5.ebLogCor[ii] - centers[i,2])^2
 
 idkm <- apply(dkm, 1, which.min)
-xx0$Identity.km[ii] <- c("DP", "EPI", "PRE", "DN")[idkm]
+xx0$Identity.km[ii] <- c("DP", "DN", "EPI", "PRE")[idkm]
 
 ## Integrate the CDX2, GATA6, NANOG subset (xx0) with rest of data
 FGF.all <- rbind.fill(xx0, subset(FGF.all, Markers != 'C2G6NG' | 
@@ -141,4 +141,4 @@ for(i in 1:4) dkm[,i] <- (scaling$CH4.ebLogCor[ii] - centers[i,1])^2 +
 idkm <- apply(dkm, 1, which.min)
 
 scaling$Identity.km <- scaling$Identity
-scaling$Identity.km[ii] <- c("DP","EPI","PRE","DN")[idkm]
+scaling$Identity.km[ii] <- c("DP","PRE","EPI","DN")[idkm]

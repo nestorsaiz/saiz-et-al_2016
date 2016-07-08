@@ -274,6 +274,52 @@ figs1d <- figs1d + coord_fixed(0.25)
 ## Print the plot to the screen
 print(figs1d)
 
+# Figure S1e
+## Local regression curves showing the temporal progression
+## in the size of each ICM lineage denomination (as % of the ICM)
+## for Littermates shown in Fig. 1
+
+## Define grid for plotting (PrE, DP, EPI+DN)
+par(mfrow = c(1, 3), mar = c(4, 4, 3, 2), mgp = c(2, 0.7, 0), lwd = 1.5, pty = 's')
+## PrE as % of ICM
+plot(Count/ICM.count ~ Cellcount, data = subset(FGF.ICMsum, 
+                                                Treatment == "Littermate" & 
+                                                        Identity.km == 'PRE'), 
+     pch = 16, cex = 0.8, xlim = c(10, 220), ylim = c(0, 1), 
+     ylab = 'PrE/ICM', xlab = 'Total cell number')
+oo1 <- locfit(Count ~ Cellcount, weights = ICM.count, family = "binomial", 
+              data = subset(FGF.ICMsum, Treatment == "Littermate" & 
+                                    Cellcount > 15 & 
+                                    Identity.km == 'PRE'))
+plot(oo1, band = "local", add = TRUE, col = idcols[2], lwd = 2)
+## DP as % of ICM
+plot(Count/ICM.count ~ Cellcount, data = subset(FGF.ICMsum, 
+                                               Treatment == "Littermate" & 
+                                                       Identity.km == 'DP'), 
+     pch = 16, cex = 0.8, xlim = c(10, 220), ylim = c(0, 1), 
+     main = 'Littermate', ylab = 'DP/ICM', xlab = 'Total cell number')
+oo1 <- locfit(Count ~ Cellcount, weights = ICM.count, family = "binomial", 
+              data = subset(FGF.ICMsum, Treatment == "Littermate" & 
+                                    Cellcount>15 & 
+                                    Identity.km == 'DP'))
+plot(oo1, band = "local", add = TRUE, col = idcols[3], lwd = 2)
+## EPI+DN as % of ICM
+plot(Count/ICM.count ~ Cellcount, data = subset(FGF.ICMsum, 
+                                               Treatment == "Littermate" & 
+                                                       (Identity.km == 'EPI' | 
+                                                                Identity.km == 'DN')), 
+     pch = 16, cex = 0.8, xlim = c(10, 220), ylim = c(0, 1), 
+     ylab = 'EPI+DN/ICM', xlab = 'Total cell number')
+oo1 <- locfit(Count ~ Cellcount, weights = ICM.count, family = "binomial", 
+              data = subset(FGF.ICMsum, Treatment == "Littermate" & 
+                                    Cellcount > 15 & 
+                                    (Identity.km == 'EPI' | 
+                                             Identity.km == 'DN')))
+plot(oo1, band = "local", add = TRUE, col = idcols[1], lwd = 2)
+
+## Reset grid to 1x1
+par(mfrow = c(1, 1))
+
 # Figure S2a-c
 ## Boxplot for Channels 1 (Hoechst (a)), 4 (GATA6 (b)) and 5 (NANOG (c))
 ## after Empirical Bayes correction

@@ -1,7 +1,7 @@
 # Saiz *et al* (2016)
 # Figures 3 and S5 plots
-
-library('lattice')
+install.packages('lattice')
+library(lattice)
 
 # Load data and apply transformations if not loaded yet
 data.ok <- exists('FGF.all') 

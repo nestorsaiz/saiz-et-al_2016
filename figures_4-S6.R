@@ -154,20 +154,103 @@ print(fig4i)
 
 # ------------------------------------------------------------------------------
 
-# Figure S6
+# Figure S6a
 ## Bar plots showing the ICM composition per embryo
 ## for embryos in Figure 3e, f
 ## grouped by manipulation ('Treatment') (Control, Single, Half or Double)
-figS6 <- ggplot(scaling %>% 
+figS6a <- ggplot(scaling %>% 
                         ## Select ICM cells only
                         filter(Identity != 'TE'), 
               aes(x = Embryo_ID, fill = Identity.km))
-figS6 <- figS6 + geom_bar(position = 'fill')
+figS6a <- figS6a + geom_bar(position = 'fill')
 ## Set up plot aesthetics
-figS6 <- figS6 + scale_fill_manual(values = idcols)
-figS6 <- figS6 + facet_wrap( ~ Treatment, scales = 'free')
-figS6 <- figS6 + labs(fill = 'Identity', y = '% of ICM')
-figS6 <- figS6 + theme_bw() + theme(axis.text.x = element_text(angle = 45, 
+figS6a <- figS6a + scale_fill_manual(values = idcols)
+figS6a <- figS6a + facet_wrap( ~ Treatment, scales = 'free')
+figS6a <- figS6a + labs(fill = 'Identity', y = '% of ICM')
+figS6a <- figS6a + theme_bw() + theme(axis.text.x = element_text(angle = 45, 
                                                                hjust = 1))
 ## Print plot to the screen
-print(figS6)
+print(figS6a)
+
+# Figure S6b 
+## Local regression curves showing the size of each ICM lineage denomination
+## (as % of the ICM) for control embryos shown in Fig. 2d and S3d.
+## Embryos are arranged by total cell number
+
+## Define grid for plotting (Pre, DN, EPI+DN)
+par(mfrow = c(1, 3), mar = c(4, 4, 3, 2), mgp = c(2, 0.7, 0), lwd = 1.5, pty = 's')
+## PrE as % of ICM
+plot(Count/ICM.count ~ Cellcount, data = subset(FGF.ICMsum, 
+                                                Treatment == "Control" & 
+                                                        Xpoint == "ep" & 
+                                                        Identity.km == 'PRE'), 
+     pch = 16, cex = 0.8, xlim = c(65, 210), ylim = c(0, 1), 
+     ylab = 'PrE/ICM', xlab = 'Total cell number')
+oo1 <- locfit(Count ~ Cellcount, weights = ICM.count, family = "binomial", 
+              data = subset(FGF.ICMsum, Treatment == "Control" & 
+                                    Xpoint == "ep" & 
+                                    Identity.km == 'PRE'))
+plot(oo1, band = "local", add = TRUE, col = idcols[2], lwd = 2)
+## DP as % of ICM
+plot(Count/ICM.count ~ Cellcount, data = subset(FGF.ICMsum, 
+                                               Treatment == "Control" & 
+                                                       Xpoint == "ep" & 
+                                                       Identity.km == 'DP'), 
+     pch = 16, cex = 0.8, xlim = c(65, 210), ylim = c(0, 1), 
+     main = 'Control', ylab = 'DP/ICM', xlab = 'Total cell number')
+oo1 <- locfit(Count ~ Cellcount, weights = ICM.count, family = "binomial", 
+              data = subset(FGF.ICMsum, Treatment == "Control" 
+                            & Xpoint == "ep" & 
+                                    Identity.km == 'DP'))
+plot(oo1, band = "local", add = TRUE, col = idcols[3], lwd = 2)
+## EPI+DN as % of ICM
+plot(Count/ICM.count ~ Cellcount, data = subset(FGF.ICMsum, 
+                                                Treatment == "Control" & 
+                                                        Xpoint == "ep" &
+                                                        (Identity.km == 'EPI' | 
+                                                                 Identity.km == 'DN')), 
+     pch = 16, cex = 0.8, xlim = c(65, 210), ylim = c(0, 1), 
+     ylab = 'EPI+DN/ICM', xlab = 'Total cell number')
+oo1 <- locfit(Count ~ Cellcount, weights = ICM.count, family = "binomial", 
+              data = subset(FGF.ICMsum, Treatment == "Control" & 
+                                    Xpoint == "ep" & 
+                                    (Identity.km == 'EPI' | 
+                                             Identity.km == 'DN')))
+plot(oo1, band = "local", add = TRUE, col = idcols[1], lwd = 2)
+
+# Figure S6c 
+## Local regression curves showing the size of each ICM lineage denomination
+## (as % of the ICM) for control (black), single (blue), half (green) and 
+## double (red) embryos.
+## Embryos are arranged by total cell number
+
+## PrE as % of ICM
+plot(Count/ICM.count ~ Cellcount, data = subset(scal.ICMsum, Identity.km == 'PRE'), 
+     pch = 16, cex = 0.8, xlim = c(20, 240), ylim=c(0, 1), 
+     col = c('black', 'blue', 'green', 'red')[Treatment], 
+     ylab = 'PrE/ICM', xlab = 'Total cell number')
+oo1 <- locfit(Count ~ Cellcount, weights = ICM.count, family = "binomial", 
+              data = subset(scal.ICMsum, Identity.km == 'PRE'))
+plot(oo1, band = "local", add = TRUE, col = idcols[2], lwd = 2)
+## DP as % of ICM
+plot(Count/ICM.count ~ Cellcount, data = subset(scal.ICMsum, Identity.km == 'DP'), 
+     pch = 16, cex = 0.8, xlim = c(20, 240), ylim = c(0, 1), 
+     col = c('black', 'blue', 'green', 'red')[Treatment], 
+     main = "Scaling", ylab = 'DP/ICM', xlab = 'Total cell number')
+oo1 <- locfit(Count ~ Cellcount, weights = ICM.count, family = "binomial", 
+              data = subset(scal.ICMsum, Identity.km == 'DP'))
+plot(oo1, band = "local", add = TRUE, col = idcols[3], lwd = 2)
+## EPI+DN as % of ICM
+plot(Count/ICM.count ~ Cellcount, data = subset(scal.ICMsum, 
+                                                (Identity.km == 'EPI' | 
+                                                         Identity.km == 'DN')), 
+     pch = 16, cex = 0.8, xlim = c(20, 240), ylim = c(0, 1), 
+     col = c('black', 'blue', 'green', 'red')[Treatment], 
+     ylab = 'EPI+DN/ICM', xlab = 'Total cell number')
+oo1 <- locfit(Count ~ Cellcount, weights = ICM.count, family = "binomial", 
+              data = subset(scal.ICMsum, (Identity.km == 'EPI' | 
+                                                  Identity.km == 'DN')))
+plot(oo1, band = "local", add = TRUE, col = idcols[1], lwd = 2)
+
+## Reset grid to 1x1
+par(mfrow = c(1, 1)) 

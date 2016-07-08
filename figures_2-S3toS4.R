@@ -246,6 +246,7 @@ figS4c <- ggplot(FGF.all %>%
                          filter(Xpoint != 'xp', 
                                 Treatment != 'Littermate', 
                                 Treatment != 'SU_10', 
+                                Markers == 'C2G6NG', 
                                 Regime != 'NA', 
                                 Regime != 'R8', 
                                 Regime != 'R9'), 

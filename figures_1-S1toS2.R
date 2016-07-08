@@ -300,7 +300,7 @@ plot(Count/ICM.count ~ Cellcount, data = subset(FGF.ICMsum,
      main = 'Littermate', ylab = 'DP/ICM', xlab = 'Total cell number')
 oo1 <- locfit(Count ~ Cellcount, weights = ICM.count, family = "binomial", 
               data = subset(FGF.ICMsum, Treatment == "Littermate" & 
-                                    Cellcount>15 & 
+                                    Cellcount > 15 & 
                                     Identity.km == 'DP'))
 plot(oo1, band = "local", add = TRUE, col = idcols[3], lwd = 2)
 ## EPI+DN as % of ICM

@@ -104,13 +104,13 @@ To re-create the plots from the article:
 2. Using RStudio, create a new project in that directory and open the Rproject file. Alternatively, download *FGFonCD1_analysis.Rproj*. This file will recognize the working directory and has *Transformations.R* loaded already.
 3. Open *Transformations.R* and *tables.R* and source them or load them from the console by typing 
 ```R
-source(Transformations.R)
-source(tables.R)
+source(‘Transformations.R’)
+source(‘tables.R’)
 ```
 
 4. Open the figure files and source them or load them from the console by typing 
 ```R
-source(filename.R)
+source(‘filename.R’) #Where filename is the corresponding figure’s script
 ```
 
 To explore the data and re-analyze, use your preferred software and the data structure above as reference.

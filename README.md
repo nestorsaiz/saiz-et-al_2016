@@ -110,7 +110,7 @@ source(‘tables.R’)
 
 4. Open the figure files and source them or load them from the console by typing 
 ```R
-source(‘filename.R’) #Where filename is the corresponding figure’s script
+source(‘filename.R’) #Where filename.R is the corresponding figure’s script
 ```
 
 To explore the data and re-analyze, use your preferred software and the data structure above as reference.

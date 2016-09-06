@@ -3,7 +3,7 @@
 This is the README file for the saiz-et-al_2016 repository associated with the article by Saiz *et al.*, *Asynchronous fate decisions by single cells collectively ensure consistent lineage composition in the mouse blastocyst* **Nature Communications**, (2016) LINK, DOI.
 
 This repository contains the data extracted from all embryo images in the study, the R scripts used to clean, transform and analyze the data and the code to generate all plots in the article.
-All original microscopy images and raw image segmentation files can be found in Figshare https://dx.doi.org/10.6084/m9.figshare.c.3447537.
+All original microscopy images and raw image segmentation files can be found in [Figshare](https://dx.doi.org/10.6084/m9.figshare.c.3447537. ‘Figshare dataset’)
 
 ## Files included
 
@@ -27,8 +27,9 @@ Scripts:
 
 ## Data structure
 
-All segmentation data is amalgamated under a single data frame in .csv format (FGF_all_pooled_trans.csv). The file is made up of the following variables:
-- **Experiment**: a unique identifier for each experiment, with the following structure: date (in MMDDYY format) + Regime (in R*n* format) + identifier (if necessary - such as for two experiments with the same date and regime). Each **experiment** corresponds to a single litter of embryos.
+All segmentation data is amalgamated two data frames in .csv format (*FGF_all_pooled_raw.csv* and *scaling_pooled.csv*). 
+**FGF_all_pooled_raw.csv** is made up of the following variables:
+- **Experiment**: a unique identifier for each experiment (i.e., embryo litter), with the following structure: date (in MMDDYY format) + Regime (in R*n* format, see *Regimes.csv*) + identifier (if necessary - such as for two experiments with the same date and regime). Each **experiment** corresponds to a single litter of embryos.
 - **Embryo_ID**: a unique identifier for each embryo, with the following structure: Experiment_ID (as above) + Embryo identifier (Experimental group initial + embryo number). Initials for experimental groups are as follow:
 	* C: Control
 	* F: FGF4
@@ -37,17 +38,17 @@ All segmentation data is amalgamated under a single data frame in .csv format (F
 	* S: SU5402 (FGFRi)
 	* LM: reference littermate
 - **Experimenter**: initials of individual collecting and processing the sample. NS: Nestor Saiz; KW: Kiah M Williams.
-- **Regime**: culture regime, as defined in Regimes.csv
-- **Treatment**: treatment condition. Abreviations defined as follows:
+- **Regime**: culture regime, as defined in *Regimes.csv*.
+- **Treatment**: treatment condition. Abbreviations defined as follows:
 	* Control: culture media (KSOM) with or without 1ug/ml of Heparin
 	* FGF4_1000: KSOM + 1ug/ml (1000ng/ml)  of rhFGF4 + 1ug/ml of Heparin
 	* PD03_1: KSOM + 1uM PD0325901
 	* AZD_1: KSOM + 1uM AZD4547
-	* SU_10: KSOM + 10uM SU5402 (not included in analysis)
+	* SU_10: KSOM + 10uM SU5402 (excluded from analysis)
 	* SU_20: KSOM + 20uM SU5402
 - **Tt_length**: length of treatment in the indicated conditions.
 - **Cellcount**: total cell number of the embryo.
-- **Cell_ID**: identifier for each nucleus (proxy for the cell) in an embryo. Cell_IDs correspond to the number assigned by MINS to each segmented nucleus, which can be found in the *overlaid.tiff* file for the corresponding embryo, at the corresponding XYZ coordinates.  
+- **Cell_ID**: identifier for each nucleus (proxy for the cell) in an embryo. Cell_IDs correspond to the number assigned by MINS to each segmented nucleus, which can be found in the _*overlaid.tiff_ file for the corresponding embryo, at the corresponding XYZ coordinates.  
 **NOTE:** Cell_IDs that are non-integers were generated during correction for undersegmentation. Fluorescence intensities for these nuclei have been measured manually and are reliable. However, XYZ coordinates may correspond to the nearest neighbor (corresponding integer Cell_ID).
 - **Identity**: lineage identity, manually assigned by the experimenter. It has the following levels:
 	* TE: trophectoderm - outer cell, CDX2+ (if applicable)

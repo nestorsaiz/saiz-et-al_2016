@@ -85,7 +85,7 @@ All segmentation data is amalgamated two data frames in .csv format (*FGF_all_po
 
 **scaling_pooled.csv** and **scaling_exp_ref.csv** are made up of the same as above variables, with the following differences:
 
-- **Experiment**: a unique identifier for each experiment (i.e., embryo litter), with the following structure: date (in MMDDYY format) + Experiment type (*halfCD1* for ‘half embryos’ or *2xCD1* for ‘double embryos’) + Litter_ID (A-F). Each **experiment** corresponds to a single litter of embryos.
+- **Experiment**: a unique identifier for each experiment (i.e., embryo litter), with the following structure: date (in MMDDYY format) + Experiment type (*halfCD1* for ‘half embryos’ or *2xCD1* for ‘double embryos’) + Litter_ID (A-F). Each experiment corresponds to a single litter of embryos.
 - **Embryo_ID**: a unique identifier for each embryo, with the following structure: Experiment_ID (as above) + Embryo identifier (Experimental group initial + embryo number). Initials for experimental groups are as follow:
 	* C: Single embryo (control)
 	* H: Half embryo (1/2 8-cell stage)
@@ -98,11 +98,18 @@ All segmentation data is amalgamated two data frames in .csv format (*FGF_all_po
 
 ## Usage
 
-To create the plots from the article:
+To re-create the plots from the article:
 
-1. Download all files to a local directory - respect the file names.
-2. Using RStudio, create a new project in that directory and open the Rproject file.
-3. Open *open_newdata.R* and *tables.R* and source them or load them from the console using source(*filename*.R). This will load the data files and generate the tables.
-4. Open the figure files and source them or load them from the console using source(*filename*.R).
+1. Download all files to a local directory - **_respect the file names_**.
+2. Using RStudio, create a new project in that directory and open the Rproject file. Alternatively, download *FGFonCD1_analysis.Rproj*. This file will recognize the working directory and has *Transformations.R* loaded already.
+3. Open *Transformations.R* and *tables.R* and source them or load them from the console by typing 
+```R
+source(filename.R)
+```
+These scripts will load the data files, correct and transform them and and generate the tables.
+4. Open the figure files and source them or load them from the console by typing 
+```R
+source(filename.R)
+```
 
-To explore the data and re-analyze, use your favorite software and the data structure above as reference.
+To explore the data and re-analyze, use your preferred software and the data structure above as reference.

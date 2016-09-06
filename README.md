@@ -28,7 +28,7 @@ Scripts:
 ## Data structure
 
 All segmentation data is amalgamated two data frames in .csv format (*FGF_all_pooled_raw.csv* and *scaling_pooled.csv*). 
-**FGF_all_pooled_raw.csv** is made up of the following variables:
+**FGF_all_pooled_raw.csv** and **FGFonCD1_exp_ref.csv** are made up of the following variables:
 - **Experiment**: a unique identifier for each experiment (i.e., embryo litter), with the following structure: date (in MMDDYY format) + Regime (in R*n* format, see *Regimes.csv*) + identifier (if necessary - such as for two experiments with the same date and regime). Each **experiment** corresponds to a single litter of embryos.
 - **Embryo_ID**: a unique identifier for each embryo, with the following structure: Experiment_ID (as above) + Embryo identifier (Experimental group initial + embryo number). Initials for experimental groups are as follow:
 	* C: Control
@@ -60,19 +60,41 @@ All segmentation data is amalgamated two data frames in .csv format (*FGF_all_po
 - **X**: X coordinate for that nucleus.
 - **Y**: Y coordinate for that nucleus.
 - **Z**: Z coordinate for that nucleus.
-- **CH*n*.Avg**: average fluorescence intensity per pixel for the segmented nucleus in channel *n* (1-5). Labels for each channel for each embryo are specified in FILENAME.
+- **CH*n*.Avg**: average fluorescence intensity per pixel for the segmented nucleus in channel *n* (1-5). 
+	* Channel 1: Hoechst (DNA stain)
+	* Channel 2: CDX2 or OCT4 (see Markers)
+	* Channel 3: bright field (not used)
+	* Channel 4: GATA6 or GATA4 (see Markers)
+	* Channel 5: NANOG
 - **CH*n*.Sum**: sum of total fluorescence intensity for the segmented nucleus in channel *n*.
-- **TE_ICM**: TE or ICM (non TE) identity for each cell, assigned based on **Identity** (ICM = non TE cells).
-- **Stage**: embryonic stage based on total cell count (Cellcount) using stage.R. Bins are <32, 32-64, 64-90, 90-120, 120-150, >150 cells. Intervals include the lower number but not the upper number of the interval.
+- **TE_ICM**: TE or ICM identity for each cell, assigned based on **Identity** (ICM = non-TE cells).
+- **Stage**: embryonic stage based on total cell count (Cellcount), assigned using *stage.R*. Bins are <32, 32-64, 64-90, 90-120, 120-150, >150 cells. Intervals include the lower number but not the upper number of the interval.
 - **Markers**: indicate the antibody combination used for each embryo:
 	* 'C2G6NG': CDX2, GATA6, NANOG (rabbit)
 	* 'O4G4NG': OCT4, GATA4, NANOG (rat)
-- **CH*n*.logCor**: fluorescence intensity for channel *n* after correcting the log value of CH*n*.Avg for Z-associated fluorescence decay using correct.fgf.R.
-- **CH*n*.ebLogCor**: fluorescence intensity for channel *n* after correcting the log value of CH*n*.Avg, per embryo, using Empirical Bayes approach.
-- **Identity.km**: identity assigned automatically after defining clusters for EPI, DP, PRE and DN populations using the k-means clustering approach.
+- **CH*n*.logCor**: fluorescence intensity for channel *n* after correcting the log value of CH*n*.Avg for Z-associated fluorescence decay using *correct.fgf.R*.
+- **CH*n*.ebLogCor**: fluorescence intensity for channel *n* after correcting the log value of CH*n*.Avg, per embryo, using *empirical_bayes.R*.
+- **Identity.km**: identity assigned automatically after defining clusters for EPI, DP, PRE and DN populations using the k-means clustering approach (*identities.R*).
 - **Exp_date**: date the experiment was started (embryo collection).
 - **Img_date**: date the embryos were imaged.
-- **Identity.lin**: identity assigned automatically using a thresholding method for the data on linear scale (after inverting the logarithm).
+- **Identity.lin**: identity assigned automatically using a thresholding method for the data on linear scale (after inverting the logarithm) - *identify.R*.
+- **Xpoint**: experimental point
+	* sp: start point - embryo fixed at collection.
+	* xp: exchange point - embryo fixed at time of media exchange.
+	* ep: end point - embryo fixed after *in vitro* culture.
+
+**scaling_pooled.csv** and **scaling_exp_ref.csv** are made up of the same as above variables, with the following differences:
+
+- **Experiment**: a unique identifier for each experiment (i.e., embryo litter), with the following structure: date (in MMDDYY format) + Experiment type (*halfCD1* for ‘half embryos’ or *2xCD1* for ‘double embryos’) + Litter_ID (A-F). Each **experiment** corresponds to a single litter of embryos.
+- **Embryo_ID**: a unique identifier for each embryo, with the following structure: Experiment_ID (as above) + Embryo identifier (Experimental group initial + embryo number). Initials for experimental groups are as follow:
+	* C: Single embryo (control)
+	* H: Half embryo (1/2 8-cell stage)
+	* D: Double embryo (2x 8-cel stage)
+- **Treatment**: experimental manipulation, as follows:
+	* Single: re-aggregated 8-cell embryo (for ‘half embryo’ experiments) or unmanipulated 8-cell stage embryo (for ‘double embryo’ experiments). See article’s Methods.
+	* Half: re-aggregated 4-cell embryo (after 8-cell stage dissociation).
+	* Double: aggregated 2x 8-cell stage embryos.
+
 
 ## Usage
 

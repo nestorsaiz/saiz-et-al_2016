@@ -15,6 +15,7 @@ rm(data.ok)
 ## Assign identities using a thresholding method (threshold = 50)
 ## for GATA6 (Channel 4) and NANOG (Channel 5) levels
 ## Identities thus assigned will appear in Identity.lin column
+## Only reliable for embryos where Treatment == 'Littermate'
 FGF.all <- id.linear(FGF.all)
 
 ## Assign identity to ICM cells

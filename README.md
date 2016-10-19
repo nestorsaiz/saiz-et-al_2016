@@ -1,6 +1,6 @@
 # Saiz *et al.* (2016) *Nature Communications*
 
-This is the README file for the saiz-et-al_2016 repository associated with the article by Saiz *et al.*, *Asynchronous fate decisions by single cells collectively ensure consistent lineage composition in the mouse blastocyst* **Nature Communications** 7, 13463, DOI: 10.1038/ncomms13463 (2016) (http://www.nature.com/naturecommunications)
+This is the README file for the saiz-et-al_2016 repository associated with the article by Saiz *et al.*, *Asynchronous fate decisions by single cells collectively ensure consistent lineage composition in the mouse blastocyst* **Nature Communications** 7, 13463 doi: 10.1038/ncomms13463 (2016) (http://www.nature.com/naturecommunications)
 
 This repository contains the data extracted from all embryo images in the study, the R scripts used to clean, transform and analyze the data and the code to generate all plots in the article.
 All original microscopy images and raw image segmentation files can be found in [Figshare](https://dx.doi.org/10.6084/m9.figshare.c.3447537. ‘Figshare dataset’)

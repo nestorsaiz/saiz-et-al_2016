@@ -43,7 +43,7 @@ xx2 <-  subset(xx0, Treatment == "Littermate" &
 ## Perform k-means clustering with 3 means
 set.seed(20160606)
 oo <- kmeans(xx2[,1:2], 3)
-#> oo$centers
+## oo$centers should look like this:
 #  CH4.ebLogCor CH5.ebLogCor
 #1     4.809746     5.693890
 #2     5.075773     2.096386
@@ -131,7 +131,7 @@ oo$centers
 #1     5.764162     3.608910
 #2     4.060173     5.884474
 
-ii <- scaling$TE_ICM=="ICM"
+ii <- scaling$TE_ICM == "ICM"
 centers <- rbind(c(5.764162, 5.884474), oo$centers[2:1,], c(4.060173,3.608910))
 #centers <- matrix(c(6,6,3.5,6,6,3.5,3.5,3.5), ncol=2, byrow=TRUE)
 
@@ -142,4 +142,4 @@ for(i in 1:4) dkm[,i] <- (scaling$CH4.ebLogCor[ii] - centers[i,1])^2 +
 idkm <- apply(dkm, 1, which.min)
 
 scaling$Identity.km <- scaling$Identity
-scaling$Identity.km[ii] <- c("DP","PRE","EPI","DN")[idkm]
+scaling$Identity.km[ii] <- c("DP", "PRE", "EPI", "DN")[idkm]
